@@ -5,7 +5,7 @@ const app = express();
 const db = mongoose.connection;
 
 mongoose
-  .connect("mongodb://localhost/ninjago", { useNewUrlParser: true })
+  .connect("mongodb://localhost/users", { useNewUrlParser: true })
   .then(() => console.log("DB Connected!"));
 mongoose.Promise = global.Promise;
 

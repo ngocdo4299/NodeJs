@@ -1,189 +1,110 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const { verifyAccessToken } = require("../middleware/auth");
 dotenv.config();
 const router = express.Router();
-let user = [
-  {
-    id: 1,
-    username: "admin",
-    password: 12345678,
-    preName: "Thi",
-    firstName: "Do",
-    lastName: "Ngoc",
-    role: "adminstration",
-    createdAt: "Date",
-    updateAt: "Date",
-  },
-  {
-    id: 2,
-    username: "admin2",
-    password: 12345678,
-    preName: "Thi",
-    firstName: "Do",
-    lastName: "N",
-    role: "adminstration",
-    createdAt: "Date",
-    updateAt: "Date",
-  },
-  {
-    id: 3,
-    username: "admin3",
-    password: 12345678,
-    preName: "Thi",
-    firstName: "Do",
-    lastName: "Ng",
-    role: "adminstration",
-    createdAt: "Date",
-    updateAt: "Date",
-  },
-  {
-    id: 4,
-    username: "admin4",
-    password: 12345678,
-    preName: "Thi",
-    firstName: "Do",
-    lastName: "Ngo",
-    role: "adminstration",
-    createdAt: "Date",
-    updateAt: "Date",
-  },
-  {
-    id: 5,
-    username: "admin5",
-    password: 12345678,
-    preName: "Thi",
-    firstName: "Do",
-    lastName: "Ngoc5",
-    role: "adminstration",
-    createdAt: "Date",
-    updateAt: "Date",
-  },
-];
+const User = require("../models/user");
 
-function getAllUsers() {
-  let userList = user.map((e) => {
-    return {
-      Fullname: e.firstName + " " + e.preName + " " + e.lastName,
-      Role: e.role,
-    };
-  });
-  return userList;
+function getAllUsers(res) {
+  User.find({})
+    .then((user) => {
+      res.send({ user });
+    })
+    .catch((err) => {
+      res.sendStatus(404).send(err);
+    });
 }
 
-function getUserDetail(id) {
-  let findUserById = user.find((e) => {
-    return e.id == id;
-  });
-  let formatedUser = null;
-  if (findUserById !== undefined) {
-    formatedUser = {
-      Fullname:
-        findUserById.firstName +
-        " " +
-        findUserById.preName +
-        " " +
-        findUserById.lastName,
-      Role: findUserById.role,
-    };
-  }
-  return formatedUser;
+function getUserDetail(id, res) {
+  User.findById({ id: id })
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.sendStatus(404).send(err);
+    });
 }
 
 function createUser(newUser) {
-  user.push(newUser);
-  return getAllUsers();
+  return User.create(newUser);
 }
 
-function updateUser(id, newData) {
-  let updateUser = user.findIndex((i) => {
-    return i.id === Number(id);
-  });
-  let updateKey = Object.keys(newData)
-  console.log(updateKey)
-  for(let key of updateKey){
-      user[updateUser][key] = newData[key]
-  }
-  return getUserDetail(id);
+function updateUser(id, newData, res) {
+  User.findByIdAndUpdate({ id: id }, newData)
+    .then(() => {
+      User.findById({ id: id }).then((user) => {
+        res.send(user);
+      });
+    })
+    .catch((err) => {
+      res.sendStatus(404).send(err);
+    });
 }
 
-function deleteUser(id) {
-  let deleteUser = user.findIndex((i) => {
-    return i.id === Number(id);
-  });
-  if (deleteUser !== -1) {
-    user.splice(deleteUser, 1);
-  }
-  return deleteUser;
+function deleteUser(id, res) {
+  User.findByIdAndRemove({ id: id })
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.sendStatus(404).send(err);
+    });
 }
 
 //log into database
-router.post("/login", function (req, res, next) {
-  let loggedUser = user.find((e) => {
-    return e.username == req.body.username;
-  });
-  if (loggedUser == undefined) {
-    res.sendStatus(404);
-  } else if (req.body.password == loggedUser.password) {
-    console.log(process.env.TOKEN_ACCESS)
-    jwt.sign({ loggedUser }, process.env.TOKEN_ACCESS, { expiresIn: 60 * 60 },(err, token) => {
-      if(err){
-        res.send({ err })
+router.post("/login", function (req, res) {
+  User.findOne({ username: req.body.username })
+    .then((user) => {
+      if (req.body.password == user.password) {
+        jwt.sign(
+          { user },
+          process.env.TOKEN_ACCESS,
+          { expiresIn: 60 * 60 },
+          (err, token) => {
+            if (err) {
+              res.send({ err });
+            } else res.send({ token: token });
+          }
+        );
       }
-      else
-        res.send({ token: token });
+    })
+    .catch((err) => {
+      res.sendStatus(404).send(err);
     });
-  }
 });
 
 //get users list from database
-router.get("/users", verifyAccessToken, function (req, res, next) {
-      res.json({
-        message: "Token verified",
-        listUser: getAllUsers(),
-      })
+router.get("/users", verifyAccessToken, function (req, res) {
+  getAllUsers(res);
 });
 
 //get user detail from database
-router.get("/user/:id", verifyAccessToken, function (req, res, next) {
-      res.json({
-        message: "Token verified",
-        userById: getUserDetail(req.params.id),
-      });
+router.get("/user/:id", verifyAccessToken, function (req, res) {
+  getUserDetail(req.params.id, res);
 });
 
 //add new into database
-router.post("/users", verifyAccessToken, function (req, res, next) {
-  let newUser = req.body;
-  if (Object.keys(newUser).length !== 0) {
-        res.json({
-          message: "Token verified",
-          newUserList: createUser(newUser),
-        });
+router.post("/users", verifyAccessToken, function (req, res) {
+  if (Object.keys(req.body).length !== 0) {
+    createUser(req.body).then((user) => {
+      res.send(user);
+    });
   } else {
-    res.sendStatus(417);
+    res.sendStatus(404);
   }
 });
 
 //update one in database
 router.put("/user/:id", verifyAccessToken, function (req, res, next) {
-  let newUserData = req.body;
-  if (Object.keys(newUserData).length !== 0) {
-        res.json({
-          message: "Token verified",
-          updatedUser: updateUser(req.params.id,newUserData),
-        });
+  if (Object.keys(req.body).length !== 0) {
+    updateUser(req.params.id, req.body, res);
   }
 });
 
 //delete one in database
 router.delete("/user/:id", verifyAccessToken, function (req, res, next) {
-      res.json({
-        message: "Token verified",
-        deletedUser: deleteUser(req.params.id),
-        newUserList: getAllUsers(),
-      });
+  deleteUser(req.params.id, res);
 });
 
 module.exports = router;
