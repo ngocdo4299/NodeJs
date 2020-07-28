@@ -1,0 +1,11 @@
+1. Install NodeJS, NPM - DONE
+
+
+2. Check the version of NodeJS, NPM
+% npm -v 
+6.14.5
+
+% node -v
+v12.18.2
+
+
