@@ -2,7 +2,7 @@
 
 // 1. Reverse this string ""lairotuT SJedoN""
 let str = "lairotuT SJedoN";
-var reverseStr = (string) => {
+let reverseStr = (string) => {
   string = [...string].reverse().join("");
   console.log(string);
 };
@@ -18,7 +18,7 @@ const actors = [
 // });
 // console.log(actorsFullname);
 let actorsFullname = [];
-for (var actor of actors) {
+for (let actor of actors) {
   actorsFullname.push({ fullname: actor.firstName + " " + actor.lastName });
 }
 console.log(actorsFullname);

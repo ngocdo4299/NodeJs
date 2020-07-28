@@ -1,6 +1,9 @@
 const express = require("express");
-const router = express.Router();
 const jwt = require("jsonwebtoken");
+const dotenv = require('dotenv');
+const { verifyAccessToken } = require("../middleware/auth");
+dotenv.config();
+const router = express.Router();
 let user = [
   {
     id: 1,
@@ -99,7 +102,7 @@ function updateUser(id, newData) {
   });
   let updateKey = Object.keys(newData)
   console.log(updateKey)
-  for(var key of updateKey){
+  for(let key of updateKey){
       user[updateUser][key] = newData[key]
   }
   return getUserDetail(id);
@@ -114,15 +117,6 @@ function deleteUser(id) {
   }
   return deleteUser;
 }
-function verifyAccessToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  if (typeof authHeader !== "undefined") {
-    req.token = authHeader.split(" ")[1];
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-}
 
 //log into database
 router.post("/login", function (req, res, next) {
@@ -132,53 +126,41 @@ router.post("/login", function (req, res, next) {
   if (loggedUser == undefined) {
     res.sendStatus(404);
   } else if (req.body.password == loggedUser.password) {
-    jwt.sign({ loggedUser }, "secretKey", (err, token) => {
-      res.send({ token: token });
+    console.log(process.env.TOKEN_ACCESS)
+    jwt.sign({ loggedUser }, process.env.TOKEN_ACCESS, { expiresIn: 60 * 60 },(err, token) => {
+      if(err){
+        res.send({ err })
+      }
+      else
+        res.send({ token: token });
     });
   }
 });
 
-//get users/user from database
+//get users list from database
 router.get("/users", verifyAccessToken, function (req, res, next) {
-  jwt.verify(req.token, "secretKey", (err, authData) => {
-    if (err) res.sendStatus(403);
-    else {
       res.json({
         message: "Token verified",
-        authData,
         listUser: getAllUsers(),
-      });
-    }
-  });
+      })
 });
 
+//get user detail from database
 router.get("/user/:id", verifyAccessToken, function (req, res, next) {
-  jwt.verify(req.token, "secretKey", (err, authData) => {
-    if (err) res.sendStatus(403);
-    else {
       res.json({
         message: "Token verified",
-        authData,
         userById: getUserDetail(req.params.id),
       });
-    }
-  });
 });
 
 //add new into database
 router.post("/users", verifyAccessToken, function (req, res, next) {
   let newUser = req.body;
   if (Object.keys(newUser).length !== 0) {
-    jwt.verify(req.token, "secretKey", (err, authData) => {
-      if (err) res.sendStatus(403);
-      else {
         res.json({
           message: "Token verified",
-          authData,
           newUserList: createUser(newUser),
         });
-      }
-    });
   } else {
     res.sendStatus(417);
   }
@@ -188,31 +170,20 @@ router.post("/users", verifyAccessToken, function (req, res, next) {
 router.put("/user/:id", verifyAccessToken, function (req, res, next) {
   let newUserData = req.body;
   if (Object.keys(newUserData).length !== 0) {
-    jwt.verify(req.token, "secretKey", (err, authData) => {
-      if (err) res.sendStatus(403);
-      else {
         res.json({
           message: "Token verified",
-          authData,
           updatedUser: updateUser(req.params.id,newUserData),
         });
-      }
-    });
   }
 });
 
 //delete one in database
 router.delete("/user/:id", verifyAccessToken, function (req, res, next) {
-  jwt.verify(req.token, "secretKey", (err, authData) => {
-    if (err) res.sendStatus(403);
-    else {
       res.json({
         message: "Token verified",
-        authData,
         deletedUser: deleteUser(req.params.id),
         newUserList: getAllUsers(),
       });
-    }
-  });
 });
+
 module.exports = router;

@@ -1,22 +1,23 @@
 const jwt = require("jsonwebtoken");
+const dotenv = require('dotenv');
+dotenv.config();
 
-function generateAccessToken(username){
-    return jwt.sign(username, ACCESS_TOKEN_SECRET, { algorithm: 'RS256'});
-}
-
-function verifyAccessToken(req,res,user,next){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if(token == null) return res.sendStatus(401)
-
-    jwt.verify(token, ACCESS_TOKEN_SECRET, (err,user)=>{
-        if(err)
-            return res.sendStatus(403)
-        req.user = user
-        next()
-    })
-}
+function verifyAccessToken(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    if (typeof authHeader !== "undefined") {
+      req.token = authHeader.split(" ")[1];
+      jwt.verify(req.token, process.env.TOKEN_ACCESS, (err, authData) => {
+        if (err) {
+            res.status(403).send(err)
+        }
+        else {
+          next();
+        }
+      });
+    } else {
+      res.sendStatus(403);
+    }
+  }
 module.exports = {
-    generateAccessToken: generateAccessToken,
     verifyAccessToken: verifyAccessToken
   };
