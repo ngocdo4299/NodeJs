@@ -1,15 +1,17 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const { verifyAccessToken } = require("../middleware/auth");
 dotenv.config();
+const { verifyAccessToken } = require("../middleware/auth");
 const router = express.Router();
 const User = require("../models/user");
 
 function getAllUsers(res) {
   User.find({})
-    .then((user) => {
-      res.send({ user });
+    .then((users) => {
+      users = users.map( user => {
+        return { "Fullname": user.firstName+' '+user.lastName, "role": user.role}
+      })
+      res.send(users);
     })
     .catch((err) => {
       res.sendStatus(404).send(err);
@@ -54,24 +56,9 @@ function deleteUser(id, res) {
 
 //log into database
 router.post("/login", function (req, res) {
-  User.findOne({ username: req.body.username })
-    .then((user) => {
-      if (req.body.password == user.password) {
-        jwt.sign(
-          { user },
-          process.env.TOKEN_ACCESS,
-          { expiresIn: 60 * 60 },
-          (err, token) => {
-            if (err) {
-              res.send({ err });
-            } else res.send({ token: token });
-          }
-        );
-      }
-    })
-    .catch((err) => {
-      res.sendStatus(404).send(err);
-    });
+  User.verifyPassword(req.body, (token)=>{
+      res.send(token)
+  })
 });
 
 //get users list from database
