@@ -16,3 +16,4 @@ app.use("/api", require("./routes/userController"));
 app.listen(process.env.port || 3000, function () {
   console.log("Node server is running..");
 });
+ module.exports = app;

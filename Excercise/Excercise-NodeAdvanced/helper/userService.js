@@ -14,9 +14,9 @@ function getAllUsers(res) {
 }
 
 function getUserDetail(id, res) {
-  User.findById({ id: id })
+  User.findOne({ id: id })
     .then((user) => {
-      res.send(user);
+      res.send({ "Fullname": user.firstName+' '+user.lastName, "role": user.role});
     })
     .catch((err) => {
       res.sendStatus(404).send(err);
@@ -28,11 +28,9 @@ function createUser(newUser) {
 }
 
 function updateUser(id, newData, res) {
-  User.findByIdAndUpdate({ id: id }, newData)
+  User.findOneAndUpdate({ id: id }, newData)
     .then(() => {
-      User.findById({ id: id }).then((user) => {
-        res.send(user);
-      });
+      getUserDetail(id, res)
     })
     .catch((err) => {
       res.sendStatus(404).send(err);
@@ -40,7 +38,7 @@ function updateUser(id, newData, res) {
 }
 
 function deleteUser(id, res) {
-  User.findByIdAndRemove({ id: id })
+  User.findOneAndRemove({ id: id })
     .then((user) => {
       res.send(user);
     })
