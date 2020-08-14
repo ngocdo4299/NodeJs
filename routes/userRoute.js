@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { createUser,getUserDetail } from '../controller/userController.js'
 import {User} from '../model/user.js'
+import {verifyToken} from '../middleware/verifyToken.js'
 dotenv.config();
 const router = express.Router();
 
@@ -14,17 +15,11 @@ router.post("/login", function (req, res) {
 
 // register
 router.post("/", function (req, res) {
-  if (Object.keys(req.body).length !== 0) {
-    createUser(req.body).then((user) => {
-      res.send(user);
-    });
-  } else {
-    res.sendStatus(404);
-  }
+    createUser(req.body, res)
 });
 
-//get user detail from database verifyAccessToken
-router.get("/:id", function (req, res) {
+//get user detail
+router.get("/:id", verifyToken, function (req, res) {
   getUserDetail(req.params.id, res);
 });
 

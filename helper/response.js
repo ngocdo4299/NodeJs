@@ -1,9 +1,9 @@
-let responseFormalize = (status,code,error,message,data) =>{
+export let responseFormalize = (status,code,error,message,data) =>{
     return {
-        'status': status,
-        'code': code,
-        'error': error,
-        'message' : message,
-        'data' : data
+        'status': status || 404,
+        'code': code || "NULL",
+        'error': error || false,
+        'message' : message || "NULL",
+        'data' : data || "NULL"
     }
 }

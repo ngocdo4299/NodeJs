@@ -1,20 +1,22 @@
-import {User} from '../model/user.js'
-
+import { User } from "../model/user.js";
+import { responseFormalize } from "../helper/response.js"
 let getUserDetail = (id, res) => {
-  User.findOne({ id: id })
+  User.findById({ _id: id })
     .then((user) => {
-      res.send({ "Fullname": user.firstName+' '+user.lastName, "role": user.role});
+      res.send(responseFormalize(200, "GET_USER_SUCCESS", false, "Done", user.fullName));
     })
     .catch((err) => {
-      res.sendStatus(404).send(err);
+      res.send(responseFormalize(204, "GET_USER_FAILED", true, "User not found"));
     });
-}
+};
 
-let createUser = (newUser) => {
-  return User.create(newUser);
-}
-
-export {
-    getUserDetail,
-    createUser
-  };
+let createUser = (newUser, res) => {
+  if (Object.keys(newUser).length !== 0) {
+    User.create(newUser).then((user) => {
+      res.send(responseFormalize(201, "ADD_USER_SUCCESS", false, "Done", user.fullName));
+    });
+  } else {
+    res.send(responseFormalize(400, "ADD_USER_FAILED", true, "Bad request"));
+  }
+};
+export { getUserDetail, createUser };

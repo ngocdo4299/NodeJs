@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-
+import jwt from "jsonwebtoken";
+import {generateToken} from '../utils/generateToken.js'
 const Schema = mongoose.Schema;
-dotenv.config();
 
 const UserSchema = new Schema({
   username: {
@@ -17,7 +15,7 @@ const UserSchema = new Schema({
   },
   fullName: {
     type: String,
-    required: [true, "Password field is required"],
+    required: [true, "Fullname field is required"],
   },
   createAt: {
     type: Date,
@@ -39,22 +37,15 @@ UserSchema.statics.verifyPassword = function (verifyUser,callback) {
   this.findOne({ username: verifyUser.username })
     .then((user) => {
       if (bcrypt.compareSync(verifyUser.password, user.password)) {
-        jwt.sign(
-          { verifyUser }, process.env.TOKEN_ACCESS,
-          { expiresIn: 60 * 60 }, (err, token) => {
-            if (err) {
-             callback(err);
-            } else {
-             callback({"token": token});
-            }
-          }
-        );
+          generateToken(verifyUser, 60*60, (res)=>{
+          callback(res)
+        })
       }else{
-          callback('Wrong Password')
+          callback({"error": true , "data": "Wrong password"})
       }
     })
     .catch((err) => {
-     callback("User not found");
+     callback({"error": true , "data": "Wrong password", "code": err});
     });
 };
 export const User = mongoose.model("users", UserSchema);

@@ -1,33 +1,30 @@
 {
   "name": "nodejs",
   "version": "1.0.0",
-  "description": "NodeJs Project for Tutoring",
-  "main": "Excercise/Excercise-NodeAdvanced/app.js",
-  "dependencies": {
-    "bcrypt": "^5.0.0",
-    "body-parser": "^1.19.0",
-    "chai": "^4.2.0",
-    "chai-http": "^4.3.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "fs-extra": "^9.0.1",
-    "jsonwebtoken": "^8.5.1",
-    "mocha": "^8.1.0",
-    "mongoose": "^5.9.26",
-    "nodemon": "^2.0.4"
-  },
-  "devDependencies": {},
+  "type": "module",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ngocdo4299/NodeJs.git"
+    "url": "git+https://github.com/ngocdo4299/NodeJS.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ngocdo4299/NodeJs/issues"
+    "url": "https://github.com/ngocdo4299/NodeJS/issues"
   },
-  "homepage": "https://github.com/ngocdo4299/NodeJs#readme"
+  "homepage": "https://github.com/ngocdo4299/NodeJS#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "joi": "^17.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.29",
+    "nodemon": "^2.0.4"
+  }
 }
