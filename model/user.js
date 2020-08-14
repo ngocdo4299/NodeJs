@@ -1,43 +1,25 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import bcrypt from "bcrypt";
+
 const Schema = mongoose.Schema;
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
 dotenv.config();
-const bcrypt = require("bcrypt");
+
 const UserSchema = new Schema({
-  id: {
-    type: Number,
-    required: [true, "id field is required"],
-  },
   username: {
     type: String,
-    required: [true, "Username field is required"],
-    unique: [true, "Usename is uniqie"],
+    unique: [true, "Usename is unique"],
   },
   password: {
     type: String,
     required: [true, "Password field is required"],
   },
-  preName: {
+  fullName: {
     type: String,
+    required: [true, "Password field is required"],
   },
-  firstName: {
-    type: String,
-    required: [true, "Firstname is required"],
-  },
-  lastName: {
-    type: String,
-    required: [true, "Lastname is required"],
-  },
-  role: {
-    type: String,
-    required: [true, "Role field is required"],
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updateAt: {
+  createAt: {
     type: Date,
     default: Date.now,
   },
@@ -58,10 +40,8 @@ UserSchema.statics.verifyPassword = function (verifyUser,callback) {
     .then((user) => {
       if (bcrypt.compareSync(verifyUser.password, user.password)) {
         jwt.sign(
-          { verifyUser },
-          process.env.TOKEN_ACCESS,
-          { expiresIn: 60 * 60 },
-          (err, token) => {
+          { verifyUser }, process.env.TOKEN_ACCESS,
+          { expiresIn: 60 * 60 }, (err, token) => {
             if (err) {
              callback(err);
             } else {
@@ -77,6 +57,5 @@ UserSchema.statics.verifyPassword = function (verifyUser,callback) {
      callback("User not found");
     });
 };
-const User = mongoose.model("user", UserSchema);
+export const User = mongoose.model("users", UserSchema);
 
-module.exports = User;
