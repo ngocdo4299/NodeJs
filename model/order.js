@@ -8,8 +8,19 @@ const OrderSchema = new Schema({
     default: Date.now,
   },
   userId: {
-    type: Schema.Types.ObjectId, ref: 'users'
+    type: Schema.Types.ObjectId,
+    ref: "users",
   },
+  status: {
+    type: String,
+    default: "Pending",
+  },
+  products: [
+    {
+      productName: String,
+      quantity: Number
+    }
+  ],
 });
 
 export const Order = mongoose.model("orders", OrderSchema);
