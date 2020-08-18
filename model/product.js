@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const ProductSchema = new Schema({
   name: {
     type: String,
-    unique: [true, "Usename is unique"],
-    required: [true, "Fullname field is required"],
+    unique: [true, "product name is unique"],
+    required: [true, "product name is required"],
   },
   description: {
     type: String,

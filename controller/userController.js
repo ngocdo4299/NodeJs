@@ -4,7 +4,6 @@ import { responseFormalize } from '../helper/response.js';
 let loginUser = (data, res)=>{
   User.verifyPassword(data, (token) => {
     if (token.error) {
-      console.log(token.error);
       res.send(
         responseFormalize(
           203,
@@ -51,7 +50,6 @@ let createUser = (newUser, res) => {
 let updateUser = (id, data, res) => {
   User.findByIdAndUpdate({ _id: id }, data)
     .then((user) => {
-      console.log(data)
       res.send(responseFormalize(200, "UPDATE_USER_SUCCESS", false))
     })
     .catch((err) => {
