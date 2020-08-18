@@ -1,26 +1,33 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import {getListProductByCategory, addNewCategory, getListCategory} from '../controller/categoryController.js'
-import {verifyToken} from '../middleware/verifyToken.js'
+import express from "express";
+import dotenv from "dotenv";
+import {
+  getListProductByCategory,
+  addNewCategory,
+  getListCategory,
+  updateCategory
+} from "../controller/categoryController.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 dotenv.config();
 const router = express.Router();
 
 // get list of category
-router.get("/", verifyToken, function (req,res) {
-  getListCategory(res)
-  });
+router.get("/", verifyToken, (req, res) => {
+  getListCategory(res);
+});
 
 //get products in category
-router.get("/:id", verifyToken, function (req, res) {
-    getListProductByCategory(req.params.id, res)
-})
+router.get("/:id", verifyToken, (req, res) => {
+  getListProductByCategory(req.params.id, res);
+});
 
 // create new category
-router.post("/", verifyToken, function (req, res){
-    addNewCategory(req.body, res)
-})
+router.post("/", verifyToken, (req, res) => {
+  addNewCategory(req.body, res);
+});
 
-//delete category
+//update category name by name
+router.put("/:id", verifyToken, (req, res) => {
+  updateCategory(req.params.id, req.body, res);
+});
 
-
-export {router};
+export { router };
