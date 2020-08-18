@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import {generateToken} from '../utils/generateToken.js'
 const Schema = mongoose.Schema;
 
