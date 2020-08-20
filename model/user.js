@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import {generateToken} from '../utils/generateToken.js'
 const Schema = mongoose.Schema;
+const ObjectId =  mongoose.SchemaTypes.ObjectId;
 
 const UserSchema = new Schema({
-  username: {
+  userName: {
     type: String
   },
   password: {
@@ -19,9 +20,25 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  updateAt: {
+    type: Date,
+    default: Date.now
+  },
   status: {
     type: String,
     default: "active"
+  }, 
+  address: {
+    type: String,
+    required: [true, "Address is required"]
+  },
+  phoneNumber: {
+    type: String,
+    required: [true, "Phone number is required"]
+  },
+  email: {
+    type: String,
+    required: [true, "Email is required"]
   }
 });
 

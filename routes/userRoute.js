@@ -1,32 +1,28 @@
 import express from "express";
 import dotenv from "dotenv";
-import { createUser, getUserDetail, loginUser, updateUser, deleteUser } from "../controller/userController.js";
+// import { createUser, getUserDetail, loginUser, updateUser, deleteUser } from "../controller/userController.js";
+import { login, getDetail, registry } from '../controller/user/userApi.js';
 import { verifyToken } from "../middleware/verifyToken.js";
+
 dotenv.config();
 const router = express.Router();
 
 //sign in
-router.post("/login", (req, res) => {
-  loginUser(req.body, res)
-});
+router.post("/users/login", login);
 
 // register
-router.post("/", (req, res) => {
-  createUser(req.body, res);
-});
+router.post("/users/", registry)
 
 //get user detail
-router.get("/:id", verifyToken, (req, res) => {
-  getUserDetail(req.params.id, res);
-});
+router.get("/users/:id", verifyToken, getDetail)
 
 //update user detail
-router.put("/:id", verifyToken, (req, res) => {
+router.put("/users/:id", verifyToken, (req, res) => {
   updateUser(req.params.id,req.body, res)
 });
 
-router.delete("/:id", verifyToken, (req,res)=>{
+router.delete("/users/:id", verifyToken, (req,res)=>{
   deleteUser(req.params.id, res)
 })
 
-export { router };
+export default router;
