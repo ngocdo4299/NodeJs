@@ -4,7 +4,8 @@ import {
   getListProductByCategory,
   addNewCategory,
   getListCategory,
-  updateCategory
+  updateCategory,
+  deleteCategory
 } from "../controller/categoryController.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 dotenv.config();
@@ -25,9 +26,14 @@ router.post("/", verifyToken, (req, res) => {
   addNewCategory(req.body, res);
 });
 
-//update category name by name
+//update category
 router.put("/:id", verifyToken, (req, res) => {
   updateCategory(req.params.id, req.body, res);
 });
+
+//delete category
+router.delete("/:id",verifyToken, (req, res) =>{
+  deleteCategory(req.params.id, res)
+})
 
 export { router };

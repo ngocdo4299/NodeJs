@@ -111,9 +111,13 @@ let updateOrder = (id, data, res) => {
 };
 
 let deleteOrder = (id, res) => {
-  Order.findByIdAndDelete({ _id: id })
-    .then(() => {
-      res.send(responseFormalize(200, "DELETE_ORDER_SUCCESS", false));
+  Order.findOneAndDelete({ _id: id, status: "pending" })
+    .then((order) => {
+      if(order !== null)
+        res.send(responseFormalize(200, "DELETE_ORDER_SUCCESS", false));
+      else {
+        res.send(responseFormalize(404, "DELETE_ORDER_FAIL", true, "Order not found"))
+      }
     })
     .catch((err) => {
       res.send(responseFormalize(404, "DELETE_ORDER_FAIL", true, err));

@@ -13,34 +13,40 @@ let addNewCategory = (body, res) => {
 };
 
 let getListProductByCategory = (id, res) => {
-  Product.find({ categoryId: id })
-    .then((products) => {
-      products = products.map((p) => {
-        return { Name: p.name, Price: p.price };
-      });
-      res.send(
-        responseFormalize(
-          200,
-          "GET_PRODUCTS_BY_CATEGORY_SUCCESS",
-          false,
-          "",
-          products
+  Category.findById(id).then(category =>{
+    if(category !==  null)
+      Product.find({ categoryId: category._id })
+      .then((products) => {
+        products = products.map((p) => {
+          return { Name: p.name, Price: p.price };
+        });
+        res.send(
+          responseFormalize(
+            200,
+            "GET_PRODUCTS_BY_CATEGORY_SUCCESS",
+            false,
+            "",
+            products
+          )
+        );
+      })
+      .catch((err) => {
+        res.send(
+          responseFormalize(404, "GET_PRODUCTS_BY_CATEGORY_FAILED", true, err)
         )
-      );
-    })
-    .catch((err) => {
+      });
+    else{
       res.send(
-        responseFormalize(404, "GET_PRODUCTS_BY_CATEGORY_FAILED", true, err)
-      );
-    });
+        responseFormalize(404, "GET_PRODUCTS_BY_CATEGORY_FAILED", true, "Category not found")
+      )
+    }
+  })
+  
 };
 
 let getListCategory = (res) => {
   Category.find({})
     .then((category) => {
-      category = category.map((c) => {
-        return c.name;
-      });
       res.send(
         responseFormalize(200, "GET_CATEGORIES_SUCCESS", false, "", category)
       );
@@ -64,9 +70,23 @@ let updateCategory = (id, data, res) => {
   }
 };
 
+let deleteCategory = (id, res) => {
+  Category.findOneAndDelete({_id: id}).then(()=>{
+    Product.find({categoryId: id}).then(products => {
+      products.forEach( p=>{
+        Product.findOneAndUpdate({_id: p._id}, {categoryId: ''})
+      })
+    }).finally(()=>{
+      res.send(responseFormalize(200,"DELETE_CATEGORY_SUCCESS", false))
+    })
+  }).catch( err => {
+    res.send(responseFormalize(400,"DELETE_CATEGORY_FAIL", true, err))
+  })
+}
 export {
   getListProductByCategory,
   addNewCategory,
   getListCategory,
   updateCategory,
+  deleteCategory
 };
