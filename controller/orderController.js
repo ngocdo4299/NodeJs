@@ -73,7 +73,7 @@ let getOrderDetail = (id, res) => {
 let getListOrderByUserID = (userId, res) => {
   User.findOne({ _id: userId, status: "active" })
     .then((user) => {
-      Order.find({ userId: user._id })
+      Order.find({ userId: user._id, status: { $ne : "deleted" }})
         .then((result) => {
           res.send(
             responseFormalize(
@@ -111,7 +111,7 @@ let updateOrder = (id, data, res) => {
 };
 
 let deleteOrder = (id, res) => {
-  Order.findOneAndDelete({ _id: id, status: "pending" })
+  Order.findOneAndUpdate({ _id: id, status: "pending"}, {status: "deleted"})
     .then((order) => {
       if(order !== null)
         res.send(responseFormalize(200, "DELETE_ORDER_SUCCESS", false));
