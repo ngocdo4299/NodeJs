@@ -1,16 +1,7 @@
-import { Order } from "../model/order.js";
-import { responseFormalize } from "../helper/response.js";
-import { getProductByName } from "./productController.js";
-import { User } from "../model/user.js";
-var data = {
-  userId: "5f3655bc20fc619d6f6531a4",
-  products: [
-    { productName: "Apple Salad", quantity: 2 },
-    { productName: "Spaghetti", quantity: 4 },
-    { productName: "Strawberry milk", quantity: 1 },
-    { productName: "Cupcake", quantity: 3 },
-  ],
-};
+import { Order } from "../../model/order.js";
+import { responseFormalize } from "../../helper/response.js";
+import { getProductByName } from "../product/productController.js";
+import { User } from "../../model/user.js";
 
 //create order
 let createNewOrder = (data, res) => {
@@ -50,7 +41,6 @@ let getOrderDetail = (id, res) => {
       });
       Promise.all(getOrderPrice)
         .then((result) => {
-          console.log(result)
           res.send(
             responseFormalize(
               200,

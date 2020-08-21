@@ -1,10 +1,7 @@
 import express from "express";
-import dotenv from "dotenv";
-// import { createUser, getUserDetail, loginUser, updateUser, deleteUser } from "../controller/userController.js";
-import { login, getDetail, registry } from '../controller/user/userApi.js';
+import { login, getDetail, registry, updateInfor, deleteUser} from '../controller/user/userApi.js';
 import { verifyToken } from "../middleware/verifyToken.js";
 
-dotenv.config();
 const router = express.Router();
 
 //sign in
@@ -17,12 +14,8 @@ router.post("/users/", registry)
 router.get("/users/:id", verifyToken, getDetail)
 
 //update user detail
-router.put("/users/:id", verifyToken, (req, res) => {
-  updateUser(req.params.id,req.body, res)
-});
+router.put("/users/:id", verifyToken,updateInfor )
 
-router.delete("/users/:id", verifyToken, (req,res)=>{
-  deleteUser(req.params.id, res)
-})
+router.delete("/users/:id", verifyToken, deleteUser )
 
 export default router;

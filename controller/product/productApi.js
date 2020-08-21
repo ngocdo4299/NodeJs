@@ -1,19 +1,8 @@
-import { loginUser, getUserDetail, createUser, updateUser, removeUser } from './userController.js';
+import { addOneProduct, getAll, getOne, updateOne, deleteOne } from './productController.js'
 
-export const login = async (req, res) => {
+export const createProduct = async (req, res) => {
     try{
-        const result = await loginUser(req.body);
-        res.status(result.status).json(result);
-    }catch(err){
-        console.log(err)
-        res.status(err.status).json(err);
-    }
-    
-}
-
-export const getDetail = async (req, res) => {
-    try{
-        const result = await getUserDetail(req.params.id);
+        const result = await addOneProduct(req.body)
         res.status(result.status).json(result);
     }catch(err){
         console.log(err)
@@ -21,9 +10,9 @@ export const getDetail = async (req, res) => {
     }
 }
 
-export const registry = async (req, res) => {
+export const getAllProducts = async (req, res) => {
     try{
-        const result = await createUser(req.body);
+        const result = await getAll()
         res.status(result.status).json(result);
     }catch(err){
         console.log(err)
@@ -31,9 +20,9 @@ export const registry = async (req, res) => {
     }
 }
 
-export const updateInfor = async (req, res) =>{
+export const getOneProduct = async (req, res) => {
     try{
-        const result = await updateUser(req.params.id, req.body);
+        const result = await getOne(req.params.id)
         res.status(result.status).json(result);
     }catch(err){
         console.log(err)
@@ -41,12 +30,23 @@ export const updateInfor = async (req, res) =>{
     }
 }
 
-export const deleteUser = async (req, res) =>{
+export const updateOneProduct = async (req, res) => {
     try{
-        const result = await removeUser(req.params.id, req.body);
+        const result = await updateOne(req.params.id, req.body)
         res.status(result.status).json(result);
     }catch(err){
         console.log(err)
         res.status(err.status).json(err);
     }
 }
+
+export const deleteOneProduct = async (req, res) => {
+    try{
+        const result = await deleteOne(req.params.id)
+        res.status(result.status).json(result);
+    }catch(err){
+        console.log(err)
+        res.status(err.status).json(err);
+    }
+}
+

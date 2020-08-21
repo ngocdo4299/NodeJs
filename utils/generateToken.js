@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
-
+// import dotenv from "dotenv";
+// dotenv.config();
 let generateToken = (data, expriredTime, callback) => {
   jwt.sign({data}, process.env.TOKEN_ACCESS, { expiresIn: expriredTime }, (err, token) => {
     if (err) {

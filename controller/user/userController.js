@@ -17,11 +17,16 @@ const getUserDetail = (id) => {
   return new Promise((resolve, reject)=>{
     User.findOne({_id: id, status: 'active'})
     .then((user) => {
-      return resolve(responseFormalize(200, 'GET_USER_DETAIL_SUCCESS','','', user))
+      if(user){
+        user.password = undefined
+        return resolve(responseFormalize(200, 'GET_USER_DETAIL_SUCCESS','','', user))
+      }else{
+        return resolve(responseFormalize(200, 'GET_USER_DETAIL_FAIL',true,'User not found'))
+      }
     })
     .catch((err) => {
-      console.log(err)
-      return reject(responseFormalize(204, 'GET_USER_FAILED',true, 'User not found'))
+      console.log(`Get user detail ${err}`)
+      return reject(responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error'))
     });
   })
 };
@@ -29,37 +34,43 @@ const getUserDetail = (id) => {
 
 const createUser = async (newUser) => {
   try {
-    const findExistUser = await  User.findOne({ username: newUser.username, status: 'active' })
-    if(!findExistUser)
-      User.create(newUser).then((user)=>{
-        return responseFormalize(200, 'CREATE_NEW_USER_SUCCESS','','',user)
-      })
+    const findExistUser = await  User.findOne({ userName: newUser.userName, status: 'active' })
+    if(!findExistUser){
+      const user = await User.create(newUser)
+      return responseFormalize(200, 'CREATE_NEW_USER_SUCCESS','','',user._id)
+    }
     else
-      return responseFormalize(200, 'USER_EXISTED')
+      return responseFormalize(200, 'USER_EXISTED', true)
   }catch(err) {
-    console.log(err)
+    console.log(`Create user error ${err}`)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 };
 
-const updateUser = (id, data, res) => {
-  User.findOneAndUpdate({_id: id, status: 'active'}, data)
+const updateUser = (id, data) => {
+  return new Promise((resolve, reject)=>{
+    User.findOneAndUpdate({_id: id, status: 'active'}, data)
     .then((user) => {
-      res.send(responseFormalize(200, "UPDATE_USER_SUCCESS", false, user._id));
+      resolve(responseFormalize(200, "UPDATE_USER_SUCCESS", false, user._id));
     })
     .catch((err) => {
-      res.send(responseFormalize(404, "UPDATE_USER_FAILED", true, err));
+      console.log(`Update user error${err}`)
+      reject(responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error'));
     });
+  }) 
 };
 
-const deleteUser = (id, res) => {
-  User.findByIdAndUpdate(id, { status: "deleted" })
+const removeUser = (id) => {
+  return new Promise((resolve, reject)=>{
+    User.findByIdAndUpdate(id, { status: "deleted" })
     .then(() => {
-      res.send(responseFormalize(200, "DELETE_USER_SUCCESS", false));
+      resolve(responseFormalize(200, "DELETE_USER_SUCCESS", false));
     })
     .catch((err) => {
-      res.send(responseFormalize(404, "DELETE_USER_FAIL", true, err));
+      console.log(`Delete user error${err}`)
+      reject(responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error'));
     });
+  }) 
 };
 
-export { loginUser, getUserDetail, createUser, updateUser, deleteUser };
+export { loginUser, getUserDetail, createUser, updateUser, removeUser };
