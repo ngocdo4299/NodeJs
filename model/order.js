@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
@@ -26,17 +25,13 @@ const OrderSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  createdBy: {
-    type: ObjectId,
-    ref: "users",
-  },
   updateAt: {
     type: Date,
     default: Date.now
   },
   updateBy: {
     type: ObjectId,
-    ref: "users",
+    ref: "users"
   },
   shipDate: {
     type: Date,

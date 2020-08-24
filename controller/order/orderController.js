@@ -1,123 +1,106 @@
 import { Order } from "../../model/order.js";
-import { responseFormalize } from "../../helper/response.js";
-import { getProductByName } from "../product/productController.js";
+import { responseFormalize, errorResponse } from "../../helper/response.js";
 import { User } from "../../model/user.js";
+import { Product } from "../../model/product.js";
 
 //create order
-let createNewOrder = (data, res) => {
-  User.findOne({ _id: data.userId, status: "active" })
-    .then((user) => {
-      if (user !== null) {
-        Order.create(data)
-          .then((order) => {
-            res.send(
-              responseFormalize(201, "ORDER_CREATE_SUCCESS", false, order._id)
-            );
-          })
-          .catch((err) => {
-            res.send(responseFormalize(408, "ORDER_CREATE_FAIL", true, err));
-          });
-      } else {
-        res.send(responseFormalize(404, "USER_NOT_FOUND", true, err));
-      }
-    })
-    .catch((err) => {
-      res.send(responseFormalize(404, "USER_NOT_FOUND", true, err));
-    });
+const createNewOrder = async (data) => {
+  try {
+    const user = await User.findOne({ _id: data.userId, status: "active" });
+    if (!user) return responseFormalize(404, "USER_NOT_FOUND", true);
+    else {
+      const order = await Order.create(data);
+      return responseFormalize(201, "ORDER_CREATE_SUCCESS", false, order._id);
+    }
+  } catch (err) {
+    console.log(err);
+    return errorResponse
+  }
 };
 
 //get order Detail
-let getOrderDetail = (id, res) => {
-  Order.findOne({ _id: id })
-    .then((order) => {
-      var getOrderPrice = order.products.map((p) => {
-        return getProductByName(p).then(function (results) {
-          return {
-            name: p.productName,
-            quantity: p.quantity,
-            price: p.quantity * results.price,
-          };
-        });
+let getOrderDetail = async (id) => {
+  try {
+    const order = await Order.findOne({ _id: id })
+      .populate('userId', 'fullName')
+      .populate({
+        path: "products",
+        populate: {
+          path: "productId",
+          model: Product,
+          select: ['name', 'price']
+        },
+      }).exec()
+
+    if (!order)
+      return responseFormalize(404, "GET_ORDER_FAIL", true)
+    else {
+      return responseFormalize(200, "GET_ORDER_DETAIL_SUCCESS", false, "List of products in order", order);
+    }
+  } catch (err) {
+    console.log(err);
+    return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
+  }
+};
+
+let getListOrderByUserID = async (data) => {
+  try {
+    const user = await User.findOne({ _id: data.userId, status: "active" });
+    if (!user) return responseFormalize(404, "USER_NOT_FOUND", true);
+    else {
+      const orders = await Order.find({
+        userId: user._id,
+        status: { $ne: "deleted" },
       });
-      Promise.all(getOrderPrice)
-        .then((result) => {
-          res.send(
-            responseFormalize(
-              200,
-              "GET_ORDER_DETAIL_SUCCESS",
-              false,
-              "List of products in order",
-              result
-            )
-          );
+      return responseFormalize( 201, "GET_LIST_ORDER_SUCCESS", false, 
+              orders.map((e) => { return { id: e._id, status: e.status, date: e.createdAt };
         })
-        .catch((err) => {
-          res.send(responseFormalize(404, "GET_ORDER_FAIL", true, err));
-        });
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+      );
+    }
+  } catch (err) {
+    console.log(err);
+    return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
+  }
 };
 
-let getListOrderByUserID = (userId, res) => {
-  User.findOne({ _id: userId, status: "active" })
-    .then((user) => {
-      Order.find({ userId: user._id, status: { $ne : "deleted" }})
-        .then((result) => {
-          res.send(
-            responseFormalize(
-              200,
-              "GET_LIST_ORDER_SUCCESS",
-              false,
-              "List of orders of "+user.fullName,
-              result.map(e => {
-                return {
-                  id: e._id,
-                  status: e.status,
-                  date: e.createdAt
-                }
-              })
-            )
-          );
-        })
-        .catch((err) => {
-          res.send(responseFormalize(404, "GET_LIST_ORDER_FAIL", true, err));
-        });
-    })
-    .catch((err) => {
-      res.send(responseFormalize(404, "USER_NOT_FOUND", true, err));
-    });
+let updateOne = async (id, data) => {
+  try {
+    const order = await Order.findByIdAndUpdate({ _id: id }, data);
+    if (!order) return responseFormalize(200, "UPDATE_ORDER_SUCCESS", false);
+    else {
+      return responseFormalize(404, "UPDATE_ORDER_FAIL", false);
+    }
+  } catch (err) {
+    console.log(err);
+    return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
+  }
 };
 
-let updateOrder = (id, data, res) => {
-  Order.findByIdAndUpdate({ _id: id }, data)
-    .then(() => {
-      res.send(responseFormalize(200, "UPDATE_ORDER_SUCCESS", false));
-    })
-    .catch((err) => {
-      res.send(responseFormalize(404, "UPDATE_ORDER_FAIL", false, err));
-    });
-};
-
-let deleteOrder = (id, res) => {
-  Order.findOneAndUpdate({ _id: id, status: "pending"}, {status: "deleted"})
-    .then((order) => {
-      if(order !== null)
-        res.send(responseFormalize(200, "DELETE_ORDER_SUCCESS", false));
-      else {
-        res.send(responseFormalize(404, "DELETE_ORDER_FAIL", true, "Order not found"))
-      }
-    })
-    .catch((err) => {
-      res.send(responseFormalize(404, "DELETE_ORDER_FAIL", true, err));
-    });
+let deleteOne = async (id) => {
+  try {
+    const order = await Order.findOneAndUpdate(
+      { _id: id, status: "pending" },
+      { status: "deleted" }
+    );
+    if (!order) return responseFormalize(200, "DELETE_ORDER_SUCCESS", false);
+    else {
+      return responseFormalize(
+        404,
+        "DELETE_ORDER_FAIL",
+        true,
+        "Order not found"
+      );
+    }
+  } catch (err) {
+    console.log(err);
+    return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
+  }
 };
 
 export {
   createNewOrder,
   getOrderDetail,
   getListOrderByUserID,
-  updateOrder,
-  deleteOrder,
+  updateOne,
+  deleteOne,
 };

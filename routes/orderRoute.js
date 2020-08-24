@@ -1,34 +1,25 @@
 import express from 'express';
 import { verifyToken } from '../middleware/verifyToken.js'
+import { createOrder, getOneOrder, getOrdersByUser, updateOrder, deleteOrder } from '../controller/order/orderApi.js';
 
 const router = express.Router();
 
 //order status: Pending, Processing, Processed, Shipping, Shipped
 
 //create order
-router.post('/orders/', verifyToken, (req, res)=>{
-    createNewOrder(req.body, res)
-})
+router.post('/orders/', verifyToken, createOrder )
 
 //view order
-router.get('orders/:id', verifyToken, (req, res)=>{
-    getOrderDetail(req.params.id, res)
-})
+router.get('/orders/:id', verifyToken, getOneOrder )
 
 //view list order by userId (userId trong body)
-router.get('orders/', verifyToken, (req, res)=>{
-    getListOrderByUserID(req.body.userId,res)
-})
+router.get('/orders/', verifyToken, getOrdersByUser )
 
 //update order while pending
-router.put('orders/:id', verifyToken, (req, res)=>{
-    updateOrder(req.params.id,req.body, res)
-})
+router.put('/orders/:id', verifyToken, updateOrder )
 
 //delete order 
-router.delete('orders/:id', verifyToken, (req, res)=>{
-    deleteOrder(req.params.id, res)
-})
+router.delete('/orders/:id', verifyToken,  deleteOrder )
 
 export default router;
 
