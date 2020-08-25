@@ -21,32 +21,15 @@ const ProductSchema = new Schema({
     type: ObjectId, 
     ref: 'category'
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
   createdBy: {
     type: ObjectId,
     ref: "users",
-  },
-  updateAt: {
-    type: Date,
-    default: Date.now
   },
   updateBy: {
     type: ObjectId,
     ref: "users",
     default: null
   }
-});
-ProductSchema.pre("findOneAndUpdate", async function (next) {
-  const docToUpdate = await this.model.findOne(this.getQuery());
-  docToUpdate.updateAt = Date.now();
-  docToUpdate.save(function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
-  next();
-});
+}, {timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }});
+
 export const Product = mongoose.model("products", ProductSchema);

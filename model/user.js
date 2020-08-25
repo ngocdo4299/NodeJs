@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { generateToken } from "../utils/generateToken.js";
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -14,14 +13,6 @@ const UserSchema = new Schema({
   fullName: {
     type: String,
     required: [true, "Fullname field is required"],
-  },
-  createAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updateAt: {
-    type: Date,
-    default: Date.now,
   },
   status: {
     type: String,
@@ -43,7 +34,16 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "Email is required"],
   },
-});
+  resetToken: {
+    type: String,
+    default: null,
+  },
+  resetTokenExpired: {
+    type: Date,
+    default: Date.now
+  },
+
+}, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 
 UserSchema.pre("save", async function save(next) {
   try {
@@ -57,30 +57,35 @@ UserSchema.pre("save", async function save(next) {
 
 UserSchema.pre("findOneAndUpdate", async function (next) {
   const docToUpdate = await this.model.findOne(this.getQuery());
-  docToUpdate.password = this._update.password
-  docToUpdate.updateAt = Date.now();
-  docToUpdate.save(function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
-  next();
+  if (docToUpdate !== null) {
+    console.log("here")
+    docToUpdate.password = this._update.password
+    docToUpdate.save(function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        next();
+      }
+    });
+  }
 });
 
-UserSchema.statics.verifyPassword = function (verifyUser, callback) {
-  this.findOne({ userName: verifyUser.username, status: "active" })
-    .then((user) => {
-      if (user && bcrypt.compareSync(verifyUser.password, user.password)) {
-        generateToken(verifyUser, 60 * 60, (result) => {
-          callback(result);
-        });
-      } else {
-        callback({ error: true, data: "Wrong password or username" });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      callback({ error: true, data: "internal server error" });
-    });
+UserSchema.statics.verifyPassword = async function (verifyUser) {
+  const user = await this.findOne({ userName: verifyUser.username, status: "active" })
+  if (!user)
+    return { error: true, message: 'Username not found' }
+  else {
+    if (user && bcrypt.compareSync(verifyUser.password, user.password)) {
+      return { error: false, message: { fullname: user.fullName, username: user.userName } }
+    } else {
+      return { error: true, message: 'Incorrect password' }
+    }
+  }
 };
 export const User = mongoose.model("users", UserSchema);
+
+//list user & search (phan trang)
+
+// console.log theo ngay
+
+// updateAt to timestam[]

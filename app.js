@@ -17,6 +17,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false
   })
   .then(() => console.log("DB Connected!"));
 mongoose.Promise = global.Promise;

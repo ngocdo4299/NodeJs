@@ -1,5 +1,5 @@
 import { Order } from "../../model/order.js";
-import { responseFormalize, errorResponse } from "../../helper/response.js";
+import { responseFormalize } from "../../helper/response.js";
 import { User } from "../../model/user.js";
 import { Product } from "../../model/product.js";
 
@@ -19,18 +19,16 @@ const createNewOrder = async (data) => {
 };
 
 //get order Detail
-let getOrderDetail = async (id) => {
+const getOrderDetail = async (id) => {
   try {
     const order = await Order.findOne({ _id: id })
       .populate('userId', 'fullName')
-      .populate({
-        path: "products",
+      .populate({ path: "products",
         populate: {
           path: "productId",
-          model: Product,
           select: ['name', 'price']
         },
-      }).exec()
+      }).lean().exec()
 
     if (!order)
       return responseFormalize(404, "GET_ORDER_FAIL", true)
@@ -43,7 +41,7 @@ let getOrderDetail = async (id) => {
   }
 };
 
-let getListOrderByUserID = async (data) => {
+const getListOrderByUserID = async (data) => {
   try {
     const user = await User.findOne({ _id: data.userId, status: "active" });
     if (!user) return responseFormalize(404, "USER_NOT_FOUND", true);
@@ -63,7 +61,7 @@ let getListOrderByUserID = async (data) => {
   }
 };
 
-let updateOne = async (id, data) => {
+const updateOne = async (id, data) => {
   try {
     const order = await Order.findByIdAndUpdate({ _id: id }, data);
     if (!order) return responseFormalize(200, "UPDATE_ORDER_SUCCESS", false);
@@ -76,7 +74,7 @@ let updateOne = async (id, data) => {
   }
 };
 
-let deleteOne = async (id) => {
+const deleteOne = async (id) => {
   try {
     const order = await Order.findOneAndUpdate(
       { _id: id, status: "pending" },

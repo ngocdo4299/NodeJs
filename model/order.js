@@ -21,14 +21,6 @@ const OrderSchema = new Schema({
       quantity: Number
     }
   ],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updateAt: {
-    type: Date,
-    default: Date.now
-  },
   updateBy: {
     type: ObjectId,
     ref: "users"
@@ -41,16 +33,6 @@ const OrderSchema = new Schema({
     type: "String",
     required: [true, "Shipping address is required"]
   }
-});
-OrderSchema.pre("findOneAndUpdate", async function (next) {
-  const docToUpdate = await this.model.findOne(this.getQuery());
-  docToUpdate.updateAt = Date.now();
-  docToUpdate.save(function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
-  next();
-});
+}, {timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }});
 
 export const Order = mongoose.model("orders", OrderSchema);
