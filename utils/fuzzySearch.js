@@ -21,7 +21,7 @@ const searchScore = (text, search) => {
     if (foundChar.join('') == search)
         return score
     else
-        return -1
+        return score * (foundChar.length + 1) * 10000
 
 }
 
@@ -39,13 +39,13 @@ export const searchInList = (stringSearch, list, properties, limit, page) => {
         list[i].evaluationSearch = searchScore(list[i][prop], stringSearch)
     }
     list = list.filter(e=>{
-        return e.evaluationSearch !== -1
+        return e
     }).sort((a, b) => a.evaluationSearch - b.evaluationSearch);
 
     return splitChunk(list, limit, page)
 }
 
-// const texts = [{ 'id': 1, 'username': 'Do Thi Minh Ngoc' }, { 'id': 2, 'username': 'Do Thi Phuong Thao' }, { 'id': 3, 'username': 'Do Sy Tien' }, { 'id': 4, 'username': 'Nguyen Thi Nga' }, { 'id': 5, 'username': 'Tien Nguyen' }]
-// const search = 'Do'
-// console.log(searchInList(search, texts, 'username', 2, 1))
+// const texts = [{ 'id': 1, 'username': 'Do Thi Minh Ngoc' }, { 'id': 2, 'username': 'Do Thi Phuong Thao' }, { 'id': 3, 'username': 'Do Sy Tien' }, { 'id': 4, 'username': 'Nguyen Thi Nga' }, { 'id': 5, 'username': 'Tien Nguyen' }, { 'id': 6, 'username': 'Chu Le' }]
+// const search = 'Ng'
+// console.log(searchInList(search, texts, 'username', 10, 1))
 

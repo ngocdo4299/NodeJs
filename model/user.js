@@ -83,7 +83,3 @@ UserSchema.statics.verifyPassword = async function (verifyUser) {
   }
 };
 export const User = mongoose.model("users", UserSchema);
-
-//list user & search (phan trang)
-
-// console.log theo ngay
