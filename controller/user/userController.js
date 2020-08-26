@@ -121,17 +121,16 @@ const getListUser = async () => {
   }
 }
 
-const searchListUser = async (search) => {
+const searchListUser = async (query) => {
   try {
     let user = await User.find({})
     if (!user)
       return responseFormalize(200, 'GET_LIST_USER_FAIL', true)
     else {
-      user = searchInList(search, user.map(e =>{
+      user = searchInList(query.search, user.map(e =>{
         return { id: e._id, username: e.userName, fullname: e.fullName}
-      }), "fullname")
-      user = user.filter(e=>{return e.evaluationSearch !== -1})
-      user.sort((a, b) => a.evaluationSearch - b.evaluationSearch);
+      }), "fullname", query.limit, query.page)
+
       return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user)
     }
   } catch (err) {

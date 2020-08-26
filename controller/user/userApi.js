@@ -41,6 +41,6 @@ export const getList = async (req, res)=>{
 }
 
 export const searchUser = async (req, res)=>{
-    const result = await searchListUser(req.params.search);
+    const result = await searchListUser(req.query);
     res.status(result.status).json(result);
 }
