@@ -20,7 +20,6 @@ const searchScore = (text, search) => {
     }
     if (foundChar.join('') == search)
         return score
-        // return [score, foundChar]
     else
         return -1
 
@@ -28,8 +27,7 @@ const searchScore = (text, search) => {
 
 const splitChunk = (array, limit, page) =>{
     const start = (page-1) * limit
-    const end = page * limit 
-    console.log(start,end)
+    const end = page * limit
     return array.slice(start, end)
 }
 

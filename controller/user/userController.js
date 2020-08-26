@@ -2,6 +2,7 @@ import { User } from '../../model/user.js';
 import { responseFormalize } from "../../helper/response.js";
 import { generateToken, generateResetToken } from "../../utils/generateToken.js";
 import { searchInList } from '../../utils/fuzzySearch.js';
+import { createErrorLog } from '../../helper/logger.js'
 
 const loginUser = async (data) => {
   try {
@@ -13,7 +14,7 @@ const loginUser = async (data) => {
       return responseFormalize(203, 'TOKEN_GENERATE_FAILED', true, result.message)
     }
   } catch (err) {
-    console.log(`Login user error ${err}`)
+    createErrorLog(err)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error')
   }
 };
@@ -30,7 +31,7 @@ const getUserDetail = (id) => {
         }
       })
       .catch((err) => {
-        console.log(`Get user detail ${err}`)
+        createErrorLog(`Get user detail ${err}`)
         return reject(responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error'))
       });
   })
@@ -47,7 +48,7 @@ const createUser = async (newUser) => {
     else
       return responseFormalize(200, 'USER_EXISTED', true)
   } catch (err) {
-    console.log(`Create user error ${err}`)
+    createErrorLog(`Create user error ${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error')
   }
 };
@@ -59,7 +60,7 @@ const updateUser = (id, data) => {
         resolve(responseFormalize(200, "UPDATE_USER_SUCCESS", false, user._id));
       })
       .catch((err) => {
-        console.log(`Update user error${err}`)
+        createErrorLog(`Update user error${err}`)
         reject(responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error'));
       });
   })
@@ -72,7 +73,7 @@ const removeUser = (id) => {
         resolve(responseFormalize(200, "DELETE_USER_SUCCESS", false));
       })
       .catch((err) => {
-        console.log(`Delete user error${err}`)
+        createErrorLog(`Delete user error${err}`)
         reject(responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error'));
       });
   })
@@ -87,7 +88,7 @@ const forgotPassword = async (data) => {
     else
       return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', true, 'Temporary password, valid in 1 minute', resetToken)
   } catch (err) {
-    console.log(`Reset token error${err}`)
+    createErrorLog(`Reset token error${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 }
@@ -102,7 +103,7 @@ const resetNewPassword = async (id, data) => {
       return responseFormalize(200, 'RESET_PASSWORD_SUCCESS', true, 'User found', user._id)
 
   } catch (err) {
-    console.log(`Reset token error${err}`)
+    createErrorLog(`Reset token error${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 }
@@ -116,7 +117,7 @@ const getListUser = async () => {
       return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user)
 
   } catch (err) {
-    console.log(`Reset token error${err}`)
+    createErrorLog(`Reset token error${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 }
@@ -134,7 +135,7 @@ const searchListUser = async (query) => {
       return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user)
     }
   } catch (err) {
-    console.log(`Reset token error${err}`)
+    createErrorLog(`Reset token error${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 }
