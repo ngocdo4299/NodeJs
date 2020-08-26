@@ -1,5 +1,5 @@
 import express from "express";
-import { login, getDetail, registry, updateInfor, deleteUser, getResetPassword, resetPassword} from '../controller/user/userApi.js';
+import { login, getDetail, registry, updateInfor, deleteUser, getResetPassword, resetPassword, getList, searchUser} from '../controller/user/userApi.js';
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
@@ -25,7 +25,10 @@ router.put("/users/:id", verifyToken,updateInfor )
 //delete user
 router.delete("/users/:id", verifyToken, deleteUser )
 
-// check reset password -> sua vao login 
+//get list user
+router.get("/users", verifyToken, getList)
 
+// search user
+router.post("/users/:search", verifyToken, searchUser)
 
 export default router;

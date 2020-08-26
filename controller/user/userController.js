@@ -1,6 +1,7 @@
 import { User } from '../../model/user.js';
 import { responseFormalize } from "../../helper/response.js";
 import { generateToken, generateResetToken } from "../../utils/generateToken.js";
+import { searchInList } from '../../utils/fuzzySearch.js';
 
 const loginUser = async (data) => {
   try {
@@ -87,7 +88,7 @@ const forgotPassword = async (data) => {
       return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', true, 'Temporary password, valid in 1 minute', resetToken)
   } catch (err) {
     console.log(`Reset token error${err}`)
-    reject(responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error'));
+    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 }
 
@@ -102,8 +103,41 @@ const resetNewPassword = async (id, data) => {
 
   } catch (err) {
     console.log(`Reset token error${err}`)
-    reject(responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error'));
+    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 }
 
-export { loginUser, getUserDetail, createUser, updateUser, removeUser, forgotPassword, resetNewPassword };
+const getListUser = async () => {
+  try {
+    const user = await User.find({})
+    if (!user)
+      return responseFormalize(200, 'GET_LIST_USER_FAIL', true)
+    else
+      return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user)
+
+  } catch (err) {
+    console.log(`Reset token error${err}`)
+    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+  }
+}
+
+const searchListUser = async (search) => {
+  try {
+    let user = await User.find({})
+    if (!user)
+      return responseFormalize(200, 'GET_LIST_USER_FAIL', true)
+    else {
+      user = searchInList(search, user.map(e =>{
+        return { id: e._id, username: e.userName, fullname: e.fullName}
+      }), "fullname")
+      user = user.filter(e=>{return e.evaluationSearch !== -1})
+      user.sort((a, b) => a.evaluationSearch - b.evaluationSearch);
+      return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user)
+    }
+  } catch (err) {
+    console.log(`Reset token error${err}`)
+    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+  }
+}
+
+export { loginUser, getUserDetail, createUser, updateUser, removeUser, forgotPassword, resetNewPassword, getListUser, searchListUser };

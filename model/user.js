@@ -87,5 +87,3 @@ export const User = mongoose.model("users", UserSchema);
 //list user & search (phan trang)
 
 // console.log theo ngay
-
-// updateAt to timestam[]

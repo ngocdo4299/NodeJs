@@ -1,4 +1,4 @@
-import { loginUser, getUserDetail, createUser, updateUser, removeUser, forgotPassword, resetNewPassword} from './userController.js';
+import { loginUser, getUserDetail, createUser, updateUser, removeUser, forgotPassword, resetNewPassword, getListUser, searchListUser} from './userController.js';
 
 export const login = async (req, res) => {
     const result = await loginUser(req.body);
@@ -32,5 +32,15 @@ export const getResetPassword = async (req, res)=>{
 
 export const resetPassword = async (req, res)=>{
     const result = await resetNewPassword(req.params.id, req.body);
+    res.status(result.status).json(result);
+}
+
+export const getList = async (req, res)=>{
+    const result = await getListUser();
+    res.status(result.status).json(result);
+}
+
+export const searchUser = async (req, res)=>{
+    const result = await searchListUser(req.params.search);
     res.status(result.status).json(result);
 }
