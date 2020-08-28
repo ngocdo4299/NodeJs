@@ -5,10 +5,10 @@ import { logger, readFile } from '../../helper/logger.js'
 
 const loginUser = async (data) => {
   try {
-    // const result = await User.verifyPassword(data)
-    const result = undefined
+    const result = await User.verifyPassword(data)
     if (!result.error) {
       const token = await generateToken(result.message, 60 * 60)
+
       return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', true, '', token)
     } else {
       return responseFormalize(203, 'TOKEN_GENERATE_FAILED', true, result.message)

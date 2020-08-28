@@ -1,7 +1,7 @@
 import fs, { read } from 'fs'
 
 let day = new Date
-let fileName = `../logs/${day.getDate()}-${day.getMonth()}-${day.getFullYear()}.txt`
+let fileName = `./logs/${day.getDate()}-${day.getMonth()}-${day.getFullYear()}.txt`
 
 const writeFile = (data) => {
     const message = {
@@ -34,4 +34,3 @@ export const readFile = () => {
         console.log(content)
     });
 }
-readFile()
