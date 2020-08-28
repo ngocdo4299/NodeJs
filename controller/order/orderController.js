@@ -1,7 +1,7 @@
 import { Order } from "../../model/order.js";
 import { responseFormalize } from "../../helper/response.js";
 import { User } from "../../model/user.js";
-import { createErrorLog } from '../../helper/logger.js'
+import { logger } from '../../helper/logger.js'
 
 //create order
 const createNewOrder = async (data) => {
@@ -13,7 +13,7 @@ const createNewOrder = async (data) => {
       return responseFormalize(201, "ORDER_CREATE_SUCCESS", false, order._id);
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(err)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 };
@@ -36,7 +36,7 @@ const getOrderDetail = async (id) => {
       return responseFormalize(200, "GET_ORDER_DETAIL_SUCCESS", false, "List of products in order", order);
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(err)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 };
@@ -56,7 +56,7 @@ const getListOrderByUserID = async (data) => {
       );
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(err)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 };
@@ -69,7 +69,7 @@ const updateOne = async (id, data) => {
       return responseFormalize(404, "UPDATE_ORDER_FAIL", false);
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(err)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 };
@@ -90,7 +90,7 @@ const deleteOne = async (id) => {
       );
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(err)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 };

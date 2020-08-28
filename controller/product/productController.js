@@ -1,7 +1,7 @@
 import { Category } from "../../model/category.js";
 import { Product } from "../../model/product.js";
 import { responseFormalize } from "../../helper/response.js";
-import { createErrorLog } from '../../helper/logger.js'
+import { logger } from '../../helper/logger.js'
 
 export const getProductByName = (product) => {
   return Product.findOne({ name: product.productName });
@@ -17,7 +17,7 @@ export const getAll = async () => {
       return responseFormalize(200, "GET_LIST_PRODUCTS_SUCCESS", false, "", products.map(e=>{return {id: e._id, name: e.name}}))
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(err )
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 }
@@ -34,7 +34,7 @@ export const getOne = async (id) => {
       return responseFormalize(200, "GET_PRODUCT_SUCCESS", false, "", { id: product._id, name: product.name, category: category.name})
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(err)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 };
@@ -50,7 +50,7 @@ export const addOneProduct = async (body, res) => {
       return responseFormalize(200, "ADD_PRODUCT_SUCESS", false, "", product._id);
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(err)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 };
@@ -65,7 +65,7 @@ export const updateOne = async (id, data) => {
         return responseFormalize(201, "UPDATE_PRODUCTS_SUCCESS", false)
       }
     }catch(err){
-      createErrorLog(err)
+      logger(err)
       return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
     }
 };
@@ -80,7 +80,7 @@ export const deleteOne = async (id) => {
       return responseFormalize(200, "DELETE_PRODUCT_SUCCESS", false, product._id)
     }
   }catch(err){
-    createErrorLog(err)
+    logger(err)
     return responseFormalize(500,'INTERNAL_SERVER_ERROR',true,'Internal server error')
   }
 }

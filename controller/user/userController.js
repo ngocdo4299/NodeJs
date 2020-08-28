@@ -1,12 +1,12 @@
 import { User } from '../../model/user.js';
 import { responseFormalize } from "../../helper/response.js";
 import { generateToken, generateResetToken } from "../../utils/generateToken.js";
-import { searchInList } from '../../utils/fuzzySearch.js';
-import { createErrorLog } from '../../helper/logger.js'
+import { logger, readFile } from '../../helper/logger.js'
 
 const loginUser = async (data) => {
   try {
-    const result = await User.verifyPassword(data)
+    // const result = await User.verifyPassword(data)
+    const result = undefined
     if (!result.error) {
       const token = await generateToken(result.message, 60 * 60)
       return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', true, '', token)
@@ -14,7 +14,7 @@ const loginUser = async (data) => {
       return responseFormalize(203, 'TOKEN_GENERATE_FAILED', true, result.message)
     }
   } catch (err) {
-    createErrorLog(err)
+    logger(`Log In ${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error')
   }
 };
@@ -31,7 +31,7 @@ const getUserDetail = (id) => {
         }
       })
       .catch((err) => {
-        createErrorLog(`Get user detail ${err}`)
+        logger(`Get user detail ${err}`)
         return reject(responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error'))
       });
   })
@@ -48,63 +48,67 @@ const createUser = async (newUser) => {
     else
       return responseFormalize(200, 'USER_EXISTED', true)
   } catch (err) {
-    createErrorLog(`Create user error ${err}`)
+    logger(`Create user error ${err}`)
+    readFile()
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error')
   }
 };
 
-const updateUser = (id, data) => {
-  return new Promise((resolve, reject) => {
-    User.findOneAndUpdate({ _id: id, status: 'active' }, data)
-      .then((user) => {
-        resolve(responseFormalize(200, "UPDATE_USER_SUCCESS", false, user._id));
-      })
-      .catch((err) => {
-        createErrorLog(`Update user error${err}`)
-        reject(responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error'));
-      });
-  })
+const updateUser = async (id, data) => {
+  try {
+    const user = await User.findOne({_id: id})
+    if(user){
+      const update = await user.updateOne(data)
+      return responseFormalize(200, 'GET_USER_DETAIL_SUCCESS', '', '', update)
+    }else{
+      return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found')
+    }
+  }catch(err){
+    logger(`Update user error ${err}`)
+    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error')
+  }
+
 };
 
 const removeUser = (id) => {
-  return new Promise((resolve, reject) => {
-    User.findByIdAndUpdate(id, { status: "deleted" })
-      .then(() => {
-        resolve(responseFormalize(200, "DELETE_USER_SUCCESS", false));
-      })
-      .catch((err) => {
-        createErrorLog(`Delete user error${err}`)
-        reject(responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error'));
-      });
-  })
+  return updateUser(id, {status: "deleted"})
 };
 
 const forgotPassword = async (data) => {
+
   try {
-    const resetToken = await generateResetToken()
-    const user = await User.findOneAndUpdate({ userName: data.username }, resetToken)
-    if (!user)
-      return responseFormalize(200, 'USER_NOT_FOUND', true)
-    else
-      return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', true, 'Temporary password, valid in 1 minute', resetToken)
-  } catch (err) {
-    createErrorLog(`Reset token error${err}`)
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    const user = await User.findOne({ userName: data.username })
+    if(user){
+      const resetToken = await generateResetToken()
+      const update = await user.updateOne(resetToken)
+      return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', '', '', update)
+    }else{
+      return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found')
+    }
+  }catch(err){
+    logger(`get reset password error ${err}`)
+    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error')
   }
 }
 
 const resetNewPassword = async (id, data) => {
-  try {
-    const now = new Date;
-    const user = await User.findOneAndUpdate({ _id: id, resetToken: data.resetToken, resetTokenExpired: { $gte: now } }, { password: data.password, resetToken: null })
-    if (!user)
-      return responseFormalize(200, 'INVALID_INPUT', true)
-    else
-      return responseFormalize(200, 'RESET_PASSWORD_SUCCESS', true, 'User found', user._id)
 
-  } catch (err) {
-    createErrorLog(`Reset token error${err}`)
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+  try {
+    const user = await User.findOne({ _id: id })
+    if(user){
+      const now = new Data;
+      if(user.resetToken == data.resetToken && user.resetTokenExpired > now ){
+        const update = await user.updateOne({ password: data.password, resetToken: null })
+        return responseFormalize(200, 'RESET_PASSWORD_SUCCESS', true)
+      }else{
+        return responseFormalize(200, 'INVALID_TOKEN', true)
+      }
+    }else{
+      return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found')
+    }
+  }catch(err){
+    logger(`get reset password error ${err}`)
+    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error')
   }
 }
 
@@ -117,25 +121,25 @@ const getListUser = async () => {
       return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user)
 
   } catch (err) {
-    createErrorLog(`Reset token error${err}`)
+    logger(`Reset token error${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 }
 
 const searchListUser = async (query) => {
   try {
-    let user = await User.find({})
+    const regex = `(${query.search})+`
+    const user =  await User.find({fullName: new RegExp(regex, 'gmi') })
+                            .skip((query.page -1)*query.limit)
+                            .limit(Number(query.limit))
+                            .sort()
     if (!user)
       return responseFormalize(200, 'GET_LIST_USER_FAIL', true)
     else {
-      user = searchInList(query.search, user.map(e =>{
-        return { id: e._id, username: e.userName, fullname: e.fullName}
-      }), "fullname", query.limit, query.page)
-
-      return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user)
+      return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, user)
     }
   } catch (err) {
-    createErrorLog(`Reset token error${err}`)
+    logger(`Reset token error${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 }
