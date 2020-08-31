@@ -4,6 +4,7 @@ let day = new Date
 let fileName = `./logs/${day.getDate()}-${day.getMonth()}-${day.getFullYear()}.txt`
 
 const writeFile = (data) => {
+    
     const message = {
         "log": data.toString(),
         "timestamp": day.toLocaleTimeString()

@@ -55,10 +55,9 @@ UserSchema.pre("save", async function save(next) {
   }
 });
 
-UserSchema.pre("findOneAndUpdate", async function (next) {
+UserSchema.pre('updateOne', async function (next) {
   const docToUpdate = await this.model.findOne(this.getQuery());
-  if (docToUpdate !== null) {
-    console.log("here")
+  if(this._update.password){
     docToUpdate.password = this._update.password
     docToUpdate.save(function (err) {
       if (err) {
@@ -67,6 +66,9 @@ UserSchema.pre("findOneAndUpdate", async function (next) {
         next();
       }
     });
+  }
+  else{
+    next()
   }
 });
 

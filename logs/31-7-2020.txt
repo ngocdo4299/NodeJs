@@ -1,0 +1,5 @@
+{"log":"MongoError: E11000 duplicate key error collection: sales.categories index: name_1 dup key: { name: \"Vegie\" }","timestamp":"9:11:33 AM"}
+{"log":"MongoError: E11000 duplicate key error collection: sales.products index: name_1 dup key: { name: \"Banana\" }","timestamp":"9:11:33 AM"}
+{"log":"MongoError: E11000 duplicate key error collection: sales.products index: name_1 dup key: { name: \"Soy oil\" }","timestamp":"9:11:33 AM"}
+{"log":"Mon Aug 31 2020 09:42:48 GMT+0700 (Indochina Time)","timestamp":"9:42:43 AM"}
+{"log":"MongoError: E11000 duplicate key error collection: sales.products index: name_1 dup key: { name: \"Honey v4\" }","timestamp":"9:43:14 AM"}

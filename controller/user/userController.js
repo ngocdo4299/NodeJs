@@ -81,12 +81,12 @@ const forgotPassword = async (data) => {
     if(user){
       const resetToken = await generateResetToken()
       const update = await user.updateOne(resetToken)
-      return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', '', '', update)
+      return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', '', '', resetToken)
     }else{
       return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found')
     }
   }catch(err){
-    logger(`get reset password error ${err}`)
+    logger(`get token reset error ${err}`)
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error')
   }
 }
@@ -96,7 +96,7 @@ const resetNewPassword = async (id, data) => {
   try {
     const user = await User.findOne({ _id: id })
     if(user){
-      const now = new Data;
+      const now = new Date;
       if(user.resetToken == data.resetToken && user.resetTokenExpired > now ){
         const update = await user.updateOne({ password: data.password, resetToken: null })
         return responseFormalize(200, 'RESET_PASSWORD_SUCCESS', true)
@@ -129,10 +129,13 @@ const getListUser = async () => {
 const searchListUser = async (query) => {
   try {
     const regex = `(${query.search})+`
+    let page = Number(query.page)
+    let limit = Number(query.limit)
+    let skipRecord = (page-1)*limit
     const user =  await User.find({fullName: new RegExp(regex, 'gmi') })
-                            .skip((query.page -1)*query.limit)
-                            .limit(Number(query.limit))
-                            .sort()
+                            .skip(skipRecord)
+                            .limit(limit)
+                            .sort( {fullName: 1})
     if (!user)
       return responseFormalize(200, 'GET_LIST_USER_FAIL', true)
     else {
