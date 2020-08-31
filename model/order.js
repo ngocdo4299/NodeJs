@@ -1,38 +1,38 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const OrderSchema = new Schema({
   userId: {
     type: ObjectId,
-    ref: "users",
+    ref: 'users',
   },
   status: {
     type: String,
-    default: "pending",
+    default: 'pending',
   },
   products: [
     {
-      productId: 
+      productId:
       {
         type: ObjectId,
-        ref: 'products'
+        ref: 'products',
       },
-      quantity: Number
-    }
+      quantity: Number,
+    },
   ],
   updateBy: {
     type: ObjectId,
-    ref: "users"
+    ref: 'users',
   },
   shipDate: {
     type: Date,
     default: undefined,
   },
   shipAddress: {
-    type: "String",
-    required: [true, "Shipping address is required"]
-  }
-}, {timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }});
+    type: 'String',
+    required: [true, 'Shipping address is required'],
+  },
+}, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 
-export const Order = mongoose.model("orders", OrderSchema);
+export const Order = mongoose.model('orders', OrderSchema);

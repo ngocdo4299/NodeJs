@@ -1,34 +1,31 @@
-import express from "express";
-import { login, getDetail, registry, updateInfor, deleteUser, getResetPassword, resetPassword, getList, searchUser} from '../controller/user/userApi.js';
-import { verifyToken } from "../middleware/verifyToken.js";
+import express from 'express';
+import { login, getDetail, registry, updateInfor, deleteUser, getResetPassword, resetPassword, searchUser} from '../controller/user/userApi.js';
+import { verifyToken } from '../middleware/verifyToken.js';
 
 const router = express.Router();
 
 //sign in
-router.post("/users/login", login);
+router.post('/users/login', login);
 
 // register
-router.post("/users/", registry)
+router.post('/users/', registry);
 
 // get reset password
-router.get("/users/reset", getResetPassword)
+router.get('/users/reset', getResetPassword);
 
 // change reset password
-router.post("/users/reset/:id", resetPassword)
+router.post('/users/reset/:id', resetPassword);
 
 //get user detail
-router.get("/users/:id", verifyToken, getDetail)
+router.get('/users/:id', verifyToken, getDetail);
 
 //update user detail
-router.put("/users/:id", verifyToken,updateInfor )
+router.put('/users/:id', verifyToken, updateInfor );
 
 //delete user
-router.delete("/users/:id", verifyToken, deleteUser )
-
-//get list user
-router.get("/users", verifyToken, getList)
+router.delete('/users/:id', verifyToken, deleteUser );
 
 // search user
-router.post("/users/:search", verifyToken, searchUser)
+router.post('/users/:search', verifyToken, searchUser);
 
 export default router;

@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -8,31 +8,31 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: [true, "Password field is required"],
+    required: [true, 'Password field is required'],
   },
   fullName: {
     type: String,
-    required: [true, "Fullname field is required"],
+    required: [true, 'Fullname field is required'],
   },
   status: {
     type: String,
-    default: "active",
+    default: 'active',
   },
   role: {
     type: String,
-    default: "guest",
+    default: 'guest',
   },
   address: {
     type: String,
-    required: [true, "Address is required"],
+    required: [true, 'Address is required'],
   },
   phoneNumber: {
     type: String,
-    required: [true, "Phone number is required"],
+    required: [true, 'Phone number is required'],
   },
   email: {
     type: String,
-    required: [true, "Email is required"],
+    required: [true, 'Email is required'],
   },
   resetToken: {
     type: String,
@@ -40,17 +40,19 @@ const UserSchema = new Schema({
   },
   resetTokenExpired: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
 
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 
-UserSchema.pre("save", async function save(next) {
+UserSchema.pre('save', async function save(next) {
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+
     return next();
   } catch (err) {
+
     return next(err);
   }
 });
@@ -58,9 +60,10 @@ UserSchema.pre("save", async function save(next) {
 UserSchema.pre('updateOne', async function (next) {
   const docToUpdate = await this.model.findOne(this.getQuery());
   if(this._update.password){
-    docToUpdate.password = this._update.password
+    docToUpdate.password = this._update.password;
     docToUpdate.save(function (err) {
       if (err) {
+        // eslint-disable-next-line no-console
         console.log(err);
       } else {
         next();
@@ -68,20 +71,20 @@ UserSchema.pre('updateOne', async function (next) {
     });
   }
   else{
-    next()
+    next();
   }
 });
 
 UserSchema.statics.verifyPassword = async function (verifyUser) {
-  const user = await this.findOne({ userName: verifyUser.username, status: "active" })
+  const user = await this.findOne({ userName: verifyUser.username, status: 'active' });
   if (!user)
-    return { error: true, message: 'Username not found' }
+    return { error: true, message: 'Username not found' };
   else {
     if (user && bcrypt.compareSync(verifyUser.password, user.password)) {
-      return { error: false, message: { fullname: user.fullName, username: user.userName } }
+      return { error: false, message: { fullname: user.fullName, username: user.userName } };
     } else {
-      return { error: true, message: 'Incorrect password' }
+      return { error: true, message: 'Incorrect password' };
     }
   }
 };
-export const User = mongoose.model("users", UserSchema);
+export const User = mongoose.model('users', UserSchema);
