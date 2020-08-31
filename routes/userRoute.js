@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, getDetail, registry, updateInfor, deleteUser, getResetPassword, resetPassword, searchUser} from '../controller/user/userApi.js';
+import { login, getDetail, registry, updateInfor, deleteUser, getResetPassword, resetPassword, searchUser } from '../controller/user/userApi.js';
 import { verifyToken } from '../middleware/verifyToken.js';
 
 const router = express.Router();

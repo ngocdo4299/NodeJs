@@ -77,8 +77,9 @@ UserSchema.pre('updateOne', async function (next) {
 
 UserSchema.statics.verifyPassword = async function (verifyUser) {
   const user = await this.findOne({ userName: verifyUser.username, status: 'active' });
-  if (!user)
+  if (!user){
     return { error: true, message: 'Username not found' };
+  }
   else {
     if (user && bcrypt.compareSync(verifyUser.password, user.password)) {
       return { error: false, message: { fullname: user.fullName, username: user.userName } };

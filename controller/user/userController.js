@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { User } from '../../model/user.js';
 import { responseFormalize } from '../../helper/response.js';
 import { generateToken, generateResetToken } from '../../utils/generateToken.js';
@@ -46,21 +47,25 @@ const getUserDetail = async (req) => {
 
 
 const createUser = async (req) => {
-  try {
-    const newUser = req.body;
-    const user = await User.findOne({ userName: newUser.userName, status: 'active' });
-    if (!user) {
-      const user = await User.create(newUser);
+  const data = req.body;
+  if (!data.userName || !data.password || !data.fullName || !data.address || !data.phoneNumber || !data.email ) {
+    return responseFormalize(404, 'INVALID_FIELDS', false, 'Missing required fields!');
+  } else {
+    try {
 
-      return responseFormalize(200, 'CREATE_NEW_USER_SUCCESS', '', '', user._id);
+      const user = await User.findOne({ userName: data.userName, status: 'active' });
+      if (!user) {
+        const user = await User.create(data);
+
+        return responseFormalize(200, 'CREATE_NEW_USER_SUCCESS', '', '', user._id);
+      }
+      else { return responseFormalize(200, 'USER_EXISTED', true); }
+    } catch (err) {
+      logger(`Create user error ${err}`);
+      readFile();
+
+      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
     }
-    else
-    {return responseFormalize(200, 'USER_EXISTED', true);}
-  } catch (err) {
-    logger(`Create user error ${err}`);
-    readFile();
-
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
 };
 
@@ -71,7 +76,7 @@ const updateUser = async (req) => {
     const data = req.body;
     const user = await User.findOne({ _id: id });
     if (user) {
-      const update = await user.updateOne( data );
+      const update = await user.updateOne(data);
 
       return responseFormalize(200, 'GET_USER_DETAIL_SUCCESS', '', '', update);
     } else {
@@ -142,22 +147,21 @@ const resetNewPassword = async (req) => {
 const searchListUser = async (req) => {
   const query = req.query;
   try {
-    let page = 1;
-    let limit = 10;
+    let page;
+    let limit;
     if (!isNaN(query.page) || !isNaN(query.limit)) {
       page = Number(query.page);
-      limit = Number(query.page);
+      limit = Number(query.limit);
+    } else {
+      page = 1;
+      limit = 10;
     }
     const skipRecord = (page - 1) * limit;
-
     // eslint-disable-next-line eqeqeq
     if (!query.search || query.search.length == 0) {
-
-      const user = await User.find({}).skip(skipRecord).limit(limit);
-      if (!user)
-      {return responseFormalize(200, 'GET_LIST_USER_FAIL', true);}
-      else
-      {return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user);}
+      const user = await User.find({}).limit(limit);
+      if (!user) { return responseFormalize(200, 'GET_LIST_USER_FAIL', true); }
+      else { return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, 'User found', user); }
 
     } else {
 
@@ -165,8 +169,7 @@ const searchListUser = async (req) => {
       const user = await User.find({ fullName: new RegExp(regex, 'gmi') })
         .skip(skipRecord)
         .limit(limit);
-      if (!user)
-      {return responseFormalize(200, 'GET_LIST_USER_FAIL', true);}
+      if (!user) { return responseFormalize(200, 'GET_LIST_USER_FAIL', true); }
       else {
         return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, user);
       }

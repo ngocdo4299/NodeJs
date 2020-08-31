@@ -1,5 +1,5 @@
 import express from 'express';
-import { verifyToken } from '../middleware/verifyToken.js'
+import { verifyToken } from '../middleware/verifyToken.js';
 import { createProduct, getAllProducts, getOneProduct, deleteOneProduct, updateOneProduct } from '../controller/product/productApi.js';
 
 const router = express.Router();
