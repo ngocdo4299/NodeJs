@@ -4,10 +4,10 @@ let day = new Date;
 let fileName = `./logs/${day.getDate()}-${day.getMonth()}-${day.getFullYear()}.txt`;
 
 const writeFile = (data) => {
-
+  let now = new Date;
   const message = {
     'log': data.toString(),
-    'timestamp': day.toLocaleTimeString(),
+    'timestamp': now.toLocaleTimeString(),
   };
   fs.writeFile(fileName, `${JSON.stringify(message)}\n`, { 'flag':'a' }, (err) => {
     if (err) {throw err;}

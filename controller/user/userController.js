@@ -6,7 +6,7 @@ import { logger, readFile } from '../../helper/logger.js';
 
 const loginUser = async (req) => {
   if (!req.body.username || !req.body.password) {
-    return responseFormalize(404, 'LOGIN_FAILED', false, 'password and username are required!');
+    return responseFormalize(404, 'LOGIN_FAILED', false, 'Username and password are required!');
   } else {
     try {
       const data = req.body;
@@ -176,7 +176,7 @@ const searchListUser = async (req) => {
     }
 
   } catch (err) {
-    logger(`Reset token error${err}`);
+    logger(`Search user error${err} `);
 
     return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
   }
