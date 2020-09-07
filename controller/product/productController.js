@@ -5,12 +5,12 @@ import { logger } from '../../helper/logger.js';
 
 export const getAll = async () => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}, { 'name': 1, '_id': 1, 'price': 1 }) ;
     if (!products) {
       return responseFormalize(200, 'GET_LIST_PRODUCT_FAIL', true);
     }
     else {
-      return responseFormalize(200, 'GET_LIST_PRODUCTS_SUCCESS', false, '', products.map(e => ({ id: e._id, name: e.name })));
+      return responseFormalize(200, 'GET_LIST_PRODUCTS_SUCCESS', false, '', products);
     }
   } catch (err) {
     logger(err);

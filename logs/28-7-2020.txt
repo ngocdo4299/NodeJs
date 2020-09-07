@@ -1,7 +1,0 @@
-﻿{"log":"Log In TypeError: Cannot read property 'error' of undefined","timestamp":"2:38:20 PM"}
-{"log":"get reset password error ReferenceError: Data is not defined","timestamp":"2:47:44 PM"}
-{"log":"get reset password error ReferenceError: Data is not defined","timestamp":"2:47:44 PM"}
-{"log":"get reset password error ReferenceError: Data is not defined","timestamp":"2:50:45 PM"}
-{"log":"get reset password error ReferenceError: Data is not defined","timestamp":"2:51:35 PM"}
-{"log":"get reset password error ReferenceError: Data is not defined","timestamp":"2:52:11 PM"}
-{"log":"get reset password error ReferenceError: Data is not defined","timestamp":"2:52:49 PM"}

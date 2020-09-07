@@ -1,39 +1,26 @@
-import fs from 'fs';
+import winston from 'winston';
+import 'winston-daily-rotate-file';
+const transport = new winston.transports.DailyRotateFile({
+  filename: '%DATE%.log',
+  dirname: './logs/',
+  datePattern: 'YYYY-MM-DD-HH',
+  maxSize: '20m',
+  maxFiles: '14d',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json(),
+  ),
+});
 
-let day = new Date;
-let fileName = `./logs/${day.getDate()}-${day.getMonth()}-${day.getFullYear()}.txt`;
+const console =  new winston.transports.Console({ level: 'info' });
 
-const writeFile = (data) => {
-  let now = new Date;
-  const message = {
-    'log': data.toString(),
-    'timestamp': now.toLocaleTimeString(),
-  };
-  fs.writeFile(fileName, `${JSON.stringify(message)}\n`, { 'flag':'a' }, (err) => {
-    if (err) {throw err;}
-  });
-};
-export const logger = async (data) => {
-  fs.open(fileName, 'r', (err) => {
-    if (err) {
-      fs.writeFile(fileName, '', function (err) {
-        if (err) {
-          // eslint-disable-next-line no-console
-          console.log(err);
-        } else {
-          writeFile(data);
-        }
-      });
-    } else {
-      writeFile(data);
-    }
-  });
-};
+const log = winston.createLogger({
+  transports: [
+    transport,
+    console,
+  ],
+});
 
-export const readFile = () => {
-  fs.readFile(fileName, 'utf8', function (err, content) {
-    if (err) {throw err;}
-    // eslint-disable-next-line no-console
-    console.log(content);
-  });
+export const logger = (data) => {
+  log.info(data);
 };
