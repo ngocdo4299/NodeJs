@@ -1,13 +1,27 @@
 {
     "users": {
-        "GET": "",
         "POST": {
             "login": "./jsonSchema/user/loginUser.json",
+            "reset": "./jsonSchema/user/resetPassword.json",
             "": "./jsonSchema/user/createUser.json"
         },
         "PUT": {
             "": "./jsonSchema/user/updateUser.json" 
-        },
-        "DELETE": ""
+        }
+    },
+    "category": {
+        "POST":{
+            "": "./jsonSchema/category/createCategory.json"
+        }
+    },
+    "products": {
+        "POST": {
+            "": "./jsonSchema/product/createProduct.json"
+        }
+    },
+    "orders": {
+        "POST": {
+            "": "./jsonSchema/order/createOrder.json"
+        }
     }
 }

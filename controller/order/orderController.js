@@ -1,31 +1,23 @@
 import { Order } from '../../model/order.js';
-import { responseFormalize } from '../../helper/response.js';
+import { responseFormalize, errorResponse } from '../../helper/response.js';
 import { User } from '../../model/user.js';
 import { logger } from '../../helper/logger.js';
 
 //create order
 const createNewOrder = async (req) => {
-  if (!req.body.userId || !req.body.updateBy) {
-    return responseFormalize(404, 'CREATE_ORDER_FAIL', true, 'User infor are required!');
-  } else if (!req.body.shipAddress) {
-    return responseFormalize(404, 'CREATE_ORDER_FAIL', true, 'Shipping address are required!');
-  } else if (!req.body.products || req.body.products.length < 1) {
-    return responseFormalize(404, 'CREATE_ORDER_FAIL', true, 'Choose a product!');
-  } else {
-    const data = req.body;
-    try {
-      const user = await User.findOne({ _id: data.userId, status: 'active' });
-      if (!user) { return responseFormalize(404, 'USER_NOT_FOUND', true); }
-      else {
-        const order = await Order.create(data);
+  const data = req.body;
+  try {
+    const user = await User.findOne({ _id: data.userId, status: 'active' });
+    if (!user) { return responseFormalize(404, 'USER_NOT_FOUND', true); }
+    else {
+      const order = await Order.create(data);
 
-        return responseFormalize(201, 'ORDER_CREATE_SUCCESS', false, order._id);
-      }
-    } catch (err) {
-      logger(err);
-
-      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+      return responseFormalize(201, 'ORDER_CREATE_SUCCESS', false, order._id);
     }
+  } catch (err) {
+    logger(err);
+
+    return errorResponse;
   }
 };
 
@@ -52,7 +44,7 @@ const getOrderDetail = async (req) => {
     } catch (err) {
       logger(err);
 
-      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+      return errorResponse;
     }
   }
 
@@ -79,7 +71,7 @@ const getListOrderByUserID = async (req) => {
     } catch (err) {
       logger(err);
 
-      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+      return errorResponse;
     }
   }
 
@@ -97,7 +89,7 @@ const updateOne = async (req) => {
   } catch (err) {
     logger(err);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
 };
 
@@ -120,7 +112,7 @@ const deleteOne = async (req) => {
   } catch (err) {
     logger(err);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
 };
 

@@ -1,0 +1,133 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "userId": "5f44c66b8c799311c1070c08",
+            "updateBy": "5f44c66b8c799311c1070c08",
+            "shipAddress": "2/174/205 Xuan Dinh",
+            "products": [
+                {
+                    "productId": "5f4c5e95cd037011056e7642",
+                    "quantity": 2
+                },
+                {
+                    "productId": "5f4c5f32cd037011056e7648",
+                    "quantity": 3
+                },
+                {
+                    "productId": "5f4c602ccd037011056e764e",
+                    "quantity": 1
+                }
+            ]
+        }
+    ],
+    "required": [
+        "userId",
+        "updateBy",
+        "shipAddress",
+        "products"
+    ],
+    "properties": {
+        "userId": {
+            "$id": "#/properties/userId",
+            "type": "string",
+            "title": "The userId schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "5f44c66b8c799311c1070c08"
+            ]
+        },
+        "updateBy": {
+            "$id": "#/properties/updateBy",
+            "type": "string",
+            "title": "The updateBy schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "5f44c66b8c799311c1070c08"
+            ]
+        },
+        "shipAddress": {
+            "$id": "#/properties/shipAddress",
+            "type": "string",
+            "title": "The shipAddress schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "2/174/205 Xuan Dinh"
+            ]
+        },
+        "products": {
+            "$id": "#/properties/products",
+            "type": "array",
+            "title": "The products schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                [
+                    {
+                        "productId": "5f4c5e95cd037011056e7642",
+                        "quantity": 2
+                    },
+                    {
+                        "productId": "5f4c5f32cd037011056e7648",
+                        "quantity": 3
+                    }
+                ]
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/products/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/products/items/anyOf/0",
+                        "type": "object",
+                        "title": "The first anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": {},
+                        "examples": [
+                            {
+                                "productId": "5f4c5e95cd037011056e7642",
+                                "quantity": 2
+                            }
+                        ],
+                        "required": [
+                            "productId",
+                            "quantity"
+                        ],
+                        "properties": {
+                            "productId": {
+                                "$id": "#/properties/products/items/anyOf/0/properties/productId",
+                                "type": "string",
+                                "title": "The productId schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "5f4c5e95cd037011056e7642"
+                                ]
+                            },
+                            "quantity": {
+                                "$id": "#/properties/products/items/anyOf/0/properties/quantity",
+                                "type": "integer",
+                                "title": "The quantity schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": 0,
+                                "examples": [
+                                    2
+                                ]
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                ]
+            }
+        }
+    },
+    "additionalProperties": false
+}

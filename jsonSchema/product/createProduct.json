@@ -1,0 +1,65 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "name": "Honey v4",
+            "price": 24,
+            "categoryId": "5f4c5df0cd037011056e7641",
+            "createdBy": "5f44c66b8c799311c1070c08"
+        }
+    ],
+    "required": [
+        "name",
+        "price",
+        "categoryId",
+        "createdBy"
+    ],
+    "properties": {
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "title": "The name schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "Honey v4"
+            ]
+        },
+        "price": {
+            "$id": "#/properties/price",
+            "type": "integer",
+            "title": "The price schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                24
+            ]
+        },
+        "categoryId": {
+            "$id": "#/properties/categoryId",
+            "type": "string",
+            "title": "The categoryId schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "5f4c5df0cd037011056e7641"
+            ]
+        },
+        "createdBy": {
+            "$id": "#/properties/createdBy",
+            "type": "string",
+            "title": "The createdBy schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "5f44c66b8c799311c1070c08"
+            ]
+        }
+    },
+    "additionalProperties": false
+}

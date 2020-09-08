@@ -1,27 +1,23 @@
 import { User } from '../../model/user.js';
-import { responseFormalize } from '../../helper/response.js';
+import { responseFormalize, errorResponse } from '../../helper/response.js';
 import { generateToken, generateResetToken } from '../../utils/generateToken.js';
 import { logger } from '../../helper/logger.js';
 
 const loginUser = async (req) => {
-  if (!req.body.username || !req.body.password) {
-    return responseFormalize(404, 'LOGIN_FAILED', false, 'Username and password are required!');
-  } else {
-    try {
-      const data = req.body;
-      const result = await User.verifyPassword(data);
-      if (!result.error) {
-        const token = await generateToken(result.message, 60 * 60);
+  try {
+    const data = req.body;
+    const result = await User.verifyPassword(data);
+    if (!result.error) {
+      const token = await generateToken(result.message, 60 * 60);
 
-        return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', false, null, token);
-      } else {
-        return responseFormalize(203, 'TOKEN_GENERATE_FAILED', true, result.message);
-      }
-    } catch (err) {
-      logger(`Log In ${err}`);
-
-      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+      return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', false, null, token);
+    } else {
+      return responseFormalize(203, 'TOKEN_GENERATE_FAILED', true, result.message);
     }
+  } catch (err) {
+    logger(`loginUser ${err}`);
+
+    return errorResponse;
   }
 };
 
@@ -36,35 +32,30 @@ const getUserDetail = async (req) => {
     }
 
   } catch (err) {
-    logger(`Get user detail ${err}`);
+    logger(`getUserDetail ${err}`);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
 };
 
 const createUser = async (req) => {
   const data = req.body;
-  if (!data.userName || !data.password || !data.fullName || !data.address || !data.phoneNumber || !data.email ) {
-    return responseFormalize(404, 'INVALID_FIELDS', false, 'Missing required fields!');
-  } else {
-    try {
-      const user = await User.findOne({ userName: data.userName, status: 'active' });
-      if (!user) {
-        const newUser = await User.create(data);
+  try {
+    const user = await User.findOne({ userName: data.userName, status: 'active' });
+    if (!user) {
+      const newUser = await User.create(data);
 
-        return responseFormalize(200, 'CREATE_NEW_USER_SUCCESS', '', '', newUser._id);
-      }
-      else { return responseFormalize(200, 'USER_EXISTED', true); }
-    } catch (err) {
-      logger(`Create user error ${err}`);
-
-      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+      return responseFormalize(200, 'CREATE_NEW_USER_SUCCESS', '', '', newUser._id);
     }
+    else { return responseFormalize(200, 'USER_EXISTED', true); }
+  } catch (err) {
+    logger(`createUser ${err}`);
+
+    return errorResponse;
   }
 };
 
 const updateUser = async (req) => {
-
   try {
     const id = req.params.id;
     const data = req.body;
@@ -72,16 +63,15 @@ const updateUser = async (req) => {
     if (user) {
       const update = await user.updateOne(data);
 
-      return responseFormalize(200, 'GET_USER_DETAIL_SUCCESS', '', '', update);
+      return responseFormalize(200, 'UPDATE_USER_SUCCESS', '', '', update);
     } else {
-      return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found');
+      return responseFormalize(200, 'UPDATE_USER_FAIL', true, 'User not found');
     }
   } catch (err) {
-    logger(`Update user error ${err}`);
+    logger(`updateUser ${err}`);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
-
 };
 
 const removeUser = (req) => updateUser(req, { status: 'delete' });
@@ -102,39 +92,35 @@ const forgotPassword = async (req) => {
         return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found');
       }
     } catch (err) {
-      logger(`get token reset error ${err}`);
+      logger(`forgotPassword ${err}`);
 
-      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+      return errorResponse;
     }
   }
 };
 
 const resetNewPassword = async (req) => {
-  if (!req.body.password) {
-    return responseFormalize(404, 'INVALID_FIELD', false, 'New password are required!');
-  } else {
-    try {
-      const id = req.params.id;
-      const data = req.body;
-      const user = await User.findOne({ _id: id });
-      if (user) {
-        const now = new Date;
-        // eslint-disable-next-line eqeqeq
-        if (user.resetToken == data.resetToken && user.resetTokenExpired > now) {
-          await user.updateOne({ password: data.password, resetToken: null });
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    const user = await User.findOne({ _id: id });
+    if (user) {
+      const now = new Date;
+      // eslint-disable-next-line eqeqeq
+      if (user.resetToken == data.resetToken && user.resetTokenExpired > now) {
+        await user.updateOne({ password: data.password, resetToken: null });
 
-          return responseFormalize(200, 'RESET_PASSWORD_SUCCESS', true);
-        } else {
-          return responseFormalize(200, 'INVALID_TOKEN', true);
-        }
+        return responseFormalize(200, 'RESET_PASSWORD_SUCCESS', true);
       } else {
-        return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found');
+        return responseFormalize(200, 'INVALID_TOKEN', true);
       }
-    } catch (err) {
-      logger(`get reset password error ${err}`);
-
-      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    } else {
+      return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found');
     }
+  } catch (err) {
+    logger(`resetNewPassword ${err}`);
+
+    return errorResponse;
   }
 };
 
@@ -180,16 +166,16 @@ const searchListUser = async (req) => {
     }
 
   } catch (err) {
-    logger(`Search user error${err} `);
+    logger(`searchListUser ${err} `);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
 };
 
 export { loginUser, getUserDetail, createUser, updateUser, removeUser, forgotPassword, resetNewPassword, searchListUser };
 
 
-// Validate request with jsonschema
+// Validate request with jsonschema --
 // Use winston for log --
 // Refactor code, check NaN --
 // Write unit test for user..

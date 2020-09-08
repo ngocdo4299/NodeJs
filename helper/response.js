@@ -9,3 +9,5 @@ export const responseFormalize = (status, code, error, message, data) => {
     data: data || null,
   };
 };
+
+export const errorResponse = responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');

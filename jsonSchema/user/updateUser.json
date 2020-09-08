@@ -8,13 +8,13 @@
     "examples": [
         {
             "userName": "ChuAnh",
-            "password": "12345678",
             "fullName": "Chu Nguyen Hoang Anh",
             "address": "Xuan Thuy",
             "phoneNumber": "0976684194",
             "email": "hoanganhchunguyen@gmail.com"
         }
     ],
+    "required": [],
     "properties": {
         "userName": {
             "$id": "#/properties/userName",
@@ -24,16 +24,6 @@
             "default": "",
             "examples": [
                 "ChuAnh"
-            ]
-        },
-        "password": {
-            "$id": "#/properties/password",
-            "type": "string",
-            "title": "The password schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "12345678"
             ]
         },
         "fullName": {

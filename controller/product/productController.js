@@ -1,6 +1,6 @@
 import { Category } from '../../model/category.js';
 import { Product } from '../../model/product.js';
-import { responseFormalize } from '../../helper/response.js';
+import { responseFormalize, errorResponse } from '../../helper/response.js';
 import { logger } from '../../helper/logger.js';
 
 export const getAll = async () => {
@@ -15,7 +15,7 @@ export const getAll = async () => {
   } catch (err) {
     logger(err);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
 };
 
@@ -34,30 +34,26 @@ export const getOne = async (req) => {
   } catch (err) {
     logger(err);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
 };
 
 export const addOneProduct = async (req) => {
-  if (!req.body.name || !req.body.price || !req.body.categoryId || !req.body.createdBy) {
-    return responseFormalize(404, 'INVALID_FIELD', false, 'Missing required field');
-  } else {
-    try {
-      const data = req.body;
-      const category = await Category.findById(data.categoryId);
-      if (!category) {
-        return responseFormalize(404, 'ADD_PRODUCT_FAIL', true, 'Category not found');
-      }
-      else {
-        const product = await Product.create(data);
-
-        return responseFormalize(200, 'ADD_PRODUCT_SUCESS', false, '', product._id);
-      }
-    } catch (err) {
-      logger(err);
-
-      return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+  try {
+    const data = req.body;
+    const category = await Category.findById(data.categoryId);
+    if (!category) {
+      return responseFormalize(404, 'ADD_PRODUCT_FAIL', true, 'Category not found');
     }
+    else {
+      const product = await Product.create(data);
+
+      return responseFormalize(200, 'ADD_PRODUCT_SUCESS', false, '', product._id);
+    }
+  } catch (err) {
+    logger(err);
+
+    return errorResponse;
   }
 };
 
@@ -75,7 +71,7 @@ export const updateOne = async ( req ) => {
   } catch (err) {
     logger(err);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
 };
 
@@ -92,6 +88,6 @@ export const deleteOne = async (req) => {
   } catch (err) {
     logger(err);
 
-    return responseFormalize(500, 'INTERNAL_SERVER_ERROR', true, 'Internal server error');
+    return errorResponse;
   }
 };
