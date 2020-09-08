@@ -3,7 +3,7 @@ import fs from 'fs';
 import Ajv from 'ajv';
 import { responseFormalize } from '../helper/response.js';
 import { logger } from '../helper/logger.js';
-import { parse } from 'path';
+
 const readFile = (fileName) =>
 
   fs.readFileSync(fileName, 'utf8');
@@ -23,7 +23,7 @@ export const verifyRequest = async (req, res, next) => {
       next();
     }
   }catch(err){
-    logger(err);
+    logger(`Verify request body error ${err}`);
     next();
   }
 

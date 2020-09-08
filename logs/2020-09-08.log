@@ -7,3 +7,5 @@
 {"level":"info","timestamp":"2020-09-08T02:56:32.585Z"}
 {"level":"info","timestamp":"2020-09-08T02:56:47.878Z"}
 {"level":"info","timestamp":"2020-09-08T02:57:28.678Z"}
+{"level":"info","timestamp":"2020-09-08T03:03:19.043Z"}
+{"message":"Verify request body error TypeError: Cannot read property 'GET' of undefined","level":"info","timestamp":"2020-09-08T03:07:53.903Z"}
