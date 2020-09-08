@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { User } from '../../model/user.js';
 import { responseFormalize } from '../../helper/response.js';
 import { generateToken, generateResetToken } from '../../utils/generateToken.js';

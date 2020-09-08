@@ -6,6 +6,8 @@ import users from './routes/userRoute.js';
 import products from './routes/productRoute.js';
 import category from './routes/categoryRoute.js';
 import orders from './routes/orderRoute.js';
+import { verifyRequest } from './middleware/verifyRequest.js';
+
 
 dotenv.config({
   path: '.env',
@@ -25,6 +27,7 @@ mongoose.Promise = global.Promise;
 
 app.use(bodyParser.json());
 
+app.use(verifyRequest);
 app.use('/api', [users, products, category, orders]);
 
 const expressPort = process.env.PORT || 3000;

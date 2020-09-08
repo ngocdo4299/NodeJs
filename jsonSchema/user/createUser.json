@@ -1,0 +1,89 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "userName": "ChuAnh",
+            "password": "12345678",
+            "fullName": "Chu Nguyen Hoang Anh",
+            "address": "Xuan Thuy",
+            "phoneNumber": "0976684194",
+            "email": "hoanganhchunguyen@gmail.com"
+        }
+    ],
+    "required": [
+        "userName",
+        "password",
+        "fullName",
+        "address",
+        "phoneNumber",
+        "email"
+    ],
+    "properties": {
+        "userName": {
+            "$id": "#/properties/userName",
+            "type": "string",
+            "title": "The userName schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "ChuAnh"
+            ]
+        },
+        "password": {
+            "$id": "#/properties/password",
+            "type": "string",
+            "title": "The password schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "12345678"
+            ]
+        },
+        "fullName": {
+            "$id": "#/properties/fullName",
+            "type": "string",
+            "title": "The fullName schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "Chu Nguyen Hoang Anh"
+            ]
+        },
+        "address": {
+            "$id": "#/properties/address",
+            "type": "string",
+            "title": "The address schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "Xuan Thuy"
+            ]
+        },
+        "phoneNumber": {
+            "$id": "#/properties/phoneNumber",
+            "type": "string",
+            "title": "The phoneNumber schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "0976684194"
+            ]
+        },
+        "email": {
+            "$id": "#/properties/email",
+            "type": "string",
+            "title": "The email schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "hoanganhchunguyen@gmail.com"
+            ]
+        }
+    },
+    "additionalProperties": false
+}

@@ -3,7 +3,7 @@ import 'winston-daily-rotate-file';
 const transport = new winston.transports.DailyRotateFile({
   filename: '%DATE%.log',
   dirname: './logs/',
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   maxSize: '20m',
   maxFiles: '14d',
   format: winston.format.combine(
@@ -22,5 +22,6 @@ const log = winston.createLogger({
 });
 
 export const logger = (data) => {
+  console.log(data);
   log.info(data);
 };

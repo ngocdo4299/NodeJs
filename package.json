@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ngocdo4299/NodeJS#readme",
   "dependencies": {
+    "ajv": "^6.12.4",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",

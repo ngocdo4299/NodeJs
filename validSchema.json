@@ -1,0 +1,13 @@
+{
+    "users": {
+        "GET": "",
+        "POST": {
+            "login": "./jsonSchema/user/loginUser.json",
+            "": "./jsonSchema/user/createUser.json"
+        },
+        "PUT": {
+            "": "./jsonSchema/user/updateUser.json" 
+        },
+        "DELETE": ""
+    }
+}
