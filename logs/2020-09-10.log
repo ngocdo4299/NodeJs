@@ -1,0 +1,132 @@
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T02:25:51.972Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T02:44:28.957Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T02:45:06.176Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T02:45:06.189Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T02:46:23.998Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T02:46:24.009Z"}
+{"message":"Valid body request TypeError: Cannot read property 'limit' of undefined","level":"info","timestamp":"2020-09-10T02:52:24.113Z"}
+{"message":"Valid body request TypeError: Cannot read property 'limit' of undefined","level":"info","timestamp":"2020-09-10T02:52:45.431Z"}
+{"message":"getUserDetail CastError: Cast to ObjectId failed for value \"limit\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T02:52:45.433Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T02:53:12.582Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T02:58:40.124Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T02:58:40.137Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T02:58:40.147Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f44c66b8c799311c1070c08' of undefined","level":"info","timestamp":"2020-09-10T02:58:40.158Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f55d90a2eb163705d8f3c1b' of undefined","level":"info","timestamp":"2020-09-10T02:58:40.175Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:01:29.922Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:01:29.936Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:01:29.945Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:01:29.957Z"}
+{"message":"getUserDetail CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:01:29.959Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:01:29.970Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:01:29.978Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:01:29.979Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:02:37.716Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:02:37.729Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:02:37.739Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:02:37.748Z"}
+{"message":"getUserDetail CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:02:37.750Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:02:37.763Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:02:37.770Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:02:37.771Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:04:33.242Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:04:33.256Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:04:33.265Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:04:33.273Z"}
+{"message":"getUserDetail CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:04:33.275Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:04:33.289Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:04:33.299Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:04:33.300Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:07:00.231Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:07:00.243Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:07:00.252Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:07:00.261Z"}
+{"message":"getUserDetail CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:07:00.263Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:07:00.278Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:07:00.285Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:07:00.286Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:07:18.450Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:07:18.456Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:07:18.465Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:07:18.471Z"}
+{"message":"getUserDetail CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:07:18.472Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:07:18.485Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:07:18.493Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:07:18.493Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:08:43.489Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:08:43.501Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:08:43.510Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f5998bbf1109742f0ff21da' of undefined","level":"info","timestamp":"2020-09-10T03:08:43.519Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f5998bbf1109742f0ff21da' of undefined","level":"info","timestamp":"2020-09-10T03:08:43.537Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:08:43.542Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:12:01.646Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:12:01.657Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:12:01.667Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f59998165aafa431ed91f95' of undefined","level":"info","timestamp":"2020-09-10T03:12:01.677Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f59998165aafa431ed91f95' of undefined","level":"info","timestamp":"2020-09-10T03:12:01.698Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:12:01.703Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:12:27.125Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:12:27.136Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:12:27.146Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f59999ba34dff433418013d' of undefined","level":"info","timestamp":"2020-09-10T03:12:27.162Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f59999ba34dff433418013d' of undefined","level":"info","timestamp":"2020-09-10T03:12:27.182Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:12:27.185Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:15:05.648Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:15:05.659Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:15:05.669Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a39afd351434dc4d47b' of undefined","level":"info","timestamp":"2020-09-10T03:15:05.680Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a39afd351434dc4d47b' of undefined","level":"info","timestamp":"2020-09-10T03:15:05.700Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:15:05.704Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:16:09.470Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:16:09.483Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:16:09.494Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a79ad845143893ca1d0' of undefined","level":"info","timestamp":"2020-09-10T03:16:09.503Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a79ad845143893ca1d0' of undefined","level":"info","timestamp":"2020-09-10T03:16:09.525Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:16:09.529Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:19:27.051Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:21:30.920Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:21:30.925Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a79ad845143893ca1d0' of undefined","level":"info","timestamp":"2020-09-10T03:22:43.361Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:22:43.381Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a79ad845143893ca1d0' of undefined","level":"info","timestamp":"2020-09-10T03:24:45.886Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:24:45.905Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a79ad845143893ca1d0' of undefined","level":"info","timestamp":"2020-09-10T03:25:11.845Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:25:11.864Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a79ad845143893ca1d0' of undefined","level":"info","timestamp":"2020-09-10T03:26:32.153Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:26:32.171Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a79ad845143893ca1d0' of undefined","level":"info","timestamp":"2020-09-10T03:26:49.572Z"}
+{"message":"updateUser TypeError: Cannot read property 'password' of undefined","level":"info","timestamp":"2020-09-10T03:26:49.591Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599a79ad845143893ca1d0' of undefined","level":"info","timestamp":"2020-09-10T03:28:17.593Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:32:09.113Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:32:35.005Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:32:35.009Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:32:35.013Z"}
+{"message":"Valid body request TypeError: Cannot read property 'undefined' of undefined","level":"info","timestamp":"2020-09-10T03:32:35.020Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:32:35.033Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T03:32:35.044Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:33:41.922Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:33:41.926Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:33:41.928Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f599e95cde66744e57bd411' of undefined","level":"info","timestamp":"2020-09-10T03:33:41.931Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:41:22.842Z"}
+{"message":"Valid body request TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string or an instance of Buffer or URL. Received undefined","level":"info","timestamp":"2020-09-10T03:41:22.848Z"}
+{"message":"Valid body request TypeError: Cannot read property 'search' of undefined","level":"info","timestamp":"2020-09-10T03:41:22.851Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f59a06279f8fb460932438b' of undefined","level":"info","timestamp":"2020-09-10T03:41:22.854Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:41:37.072Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:50:36.625Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:55:39.030Z"}
+{"message":"Valid body request TypeError: Cannot read property 'reset' of undefined","level":"info","timestamp":"2020-09-10T03:56:07.599Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f55d90a2eb163705d8f3c1b' of undefined","level":"info","timestamp":"2020-09-10T03:57:02.983Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f55d90a2eb163705d8f3c1b' of undefined","level":"info","timestamp":"2020-09-10T03:57:45.674Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f55d90a2eb163705d8f3c1b' of undefined","level":"info","timestamp":"2020-09-10T03:58:23.366Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f55d90a2eb163705d8f3c1b' of undefined","level":"info","timestamp":"2020-09-10T03:58:41.073Z"}
+{"message":"Valid body request TypeError: Cannot read property '2' of undefined","level":"info","timestamp":"2020-09-10T03:59:04.033Z"}
+{"message":"Valid body request TypeError: Cannot read property '5f55d90a2eb163705d8f3c1b' of undefined","level":"info","timestamp":"2020-09-10T04:12:08.523Z"}
+{"message":"Valid body request TypeError: Cannot read property 'hasOwnProperty' of undefined","level":"info","timestamp":"2020-09-10T04:12:21.171Z"}
+{"message":"Valid body request TypeError: Cannot read property 'hasOwnProperty' of undefined","level":"info","timestamp":"2020-09-10T04:12:43.935Z"}
+{"message":"Valid body request TypeError: Cannot read property 'hasOwnProperty' of undefined","level":"info","timestamp":"2020-09-10T04:18:10.828Z"}
+{"message":"getUserDetail CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T04:31:04.859Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T04:31:04.869Z"}
+{"message":"resetNewPassword CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T04:31:56.704Z"}
+{"message":"getUserDetail CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T04:31:56.760Z"}
+{"message":"updateUser CastError: Cast to ObjectId failed for value \"undefined\" at path \"_id\" for model \"users\"","level":"info","timestamp":"2020-09-10T04:31:56.769Z"}

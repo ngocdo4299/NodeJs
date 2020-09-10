@@ -74,7 +74,11 @@ const updateUser = async (req) => {
   }
 };
 
-const removeUser = (req) => updateUser(req, { status: 'delete' });
+const removeUser = (req) => {
+  req.body = { 'status': 'deleted' };
+
+  return updateUser(req);
+};
 
 const forgotPassword = async (req) => {
   if (!req.body.username) {
@@ -87,7 +91,7 @@ const forgotPassword = async (req) => {
         const resetToken = await generateResetToken();
         await user.updateOne(resetToken);
 
-        return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', '', '', resetToken);
+        return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', false, user._id, resetToken);
       } else {
         return responseFormalize(200, 'GET_USER_FAIL', true, 'User not found');
       }
@@ -110,7 +114,7 @@ const resetNewPassword = async (req) => {
       if (user.resetToken == data.resetToken && user.resetTokenExpired > now) {
         await user.updateOne({ password: data.password, resetToken: null });
 
-        return responseFormalize(200, 'RESET_PASSWORD_SUCCESS', true);
+        return responseFormalize(200, 'RESET_PASSWORD_SUCCESS', false);
       } else {
         return responseFormalize(200, 'INVALID_TOKEN', true);
       }
@@ -146,7 +150,7 @@ const searchListUser = async (req) => {
         let totalRecords = user.length ;
         let totalPage = Math.ceil(totalRecords/limit);
 
-        return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, `Page: ${page}/${totalPage}`, user);
+        return responseFormalize(200, 'GET_LIST_USER_SUCCESS', false, `Page: ${page}/${totalPage}`, user);
       }
 
     } else {
@@ -161,7 +165,7 @@ const searchListUser = async (req) => {
       else {
         let totalPage = Math.ceil(totalRecords/limit);
 
-        return responseFormalize(200, 'GET_LIST_USER_SUCCESS', true, `Page: ${page}/${totalPage}`, user);
+        return responseFormalize(200, 'GET_LIST_USER_SUCCESS', false, `Page: ${page}/${totalPage}`, user);
       }
     }
 
@@ -179,5 +183,5 @@ export { loginUser, getUserDetail, createUser, updateUser, removeUser, forgotPas
 // Use winston for log --
 // Refactor code, check NaN --
 // Write unit test for user..
-// projection mongoose
+// projection mongoose --
 // total page --

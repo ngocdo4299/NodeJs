@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
@@ -59,11 +60,11 @@ UserSchema.pre('save', async function save(next) {
 
 UserSchema.pre('updateOne', async function (next) {
   const docToUpdate = await this.model.findOne(this.getQuery());
-  if(this._update.password){
+  // eslint-disable-next-line no-prototype-builtins
+  if( this._update.hasOwnProperty('password')) {
     docToUpdate.password = this._update.password;
     docToUpdate.save(function (err) {
       if (err) {
-        // eslint-disable-next-line no-console
         console.log(err);
       } else {
         next();
