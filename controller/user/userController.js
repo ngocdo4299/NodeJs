@@ -82,14 +82,14 @@ const removeUser = (req) => {
 
 const forgotPassword = async (req) => {
   if (!req.body.username) {
-    return responseFormalize(404, 'INVALID_FIELD', false, 'username are required!');
+    return responseFormalize(404, 'INVALID_FIELD', true, 'username are required!');
   } else {
     try {
       const username = req.body.username;
       const user = await User.findOne({ userName: username });
       if (user) {
         const resetToken = await generateResetToken();
-        await user.updateOne(resetToken);
+        const res = await user.updateOne(resetToken);
 
         return responseFormalize(200, 'TOKEN_GENERATE_SUCCESS', false, user._id, resetToken);
       } else {
@@ -142,7 +142,7 @@ const searchListUser = async (req) => {
     const skipRecord = (page - 1) * limit;
     // eslint-disable-next-line eqeqeq
     if (!query.search || query.search.length == 0) {
-      const user = await User.find({}).limit(limit);
+      const user = await User.find({}, '_id userName fullName address phoneNumber email').limit(limit);
       if (!user) {
         return responseFormalize(200, 'GET_LIST_USER_FAIL', true);
       }
@@ -156,7 +156,7 @@ const searchListUser = async (req) => {
     } else {
       const regex = `(${query.search})+`;
       let totalRecords = await User.count({ fullName: new RegExp(regex, 'gmi') }) ;
-      const user = await User.find({ fullName: new RegExp(regex, 'gmi') })
+      const user = await User.find({ fullName: new RegExp(regex, 'gmi') }, '_id userName fullName address phoneNumber email')
         .skip(skipRecord)
         .limit(limit);
       if (!user) {
@@ -182,6 +182,6 @@ export { loginUser, getUserDetail, createUser, updateUser, removeUser, forgotPas
 // Validate request with jsonschema --
 // Use winston for log --
 // Refactor code, check NaN --
-// Write unit test for user..
+// Write unit test for user.. --
 // projection mongoose --
 // total page --

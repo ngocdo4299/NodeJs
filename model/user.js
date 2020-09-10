@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { logger } from '../helper/logger.js';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -65,7 +66,7 @@ UserSchema.pre('updateOne', async function (next) {
     docToUpdate.password = this._update.password;
     docToUpdate.save(function (err) {
       if (err) {
-        console.log(err);
+        logger(err);
       } else {
         next();
       }

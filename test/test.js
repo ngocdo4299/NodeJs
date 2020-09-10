@@ -1,15 +1,11 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import chai from 'chai';
 import chatHttp from 'chai-http';
-import { createUser } from '../controller/user/userController.js';
 
 chai.use(chatHttp);
 const baseUrl = 'http://localhost:3000/api/users';
 
 const expect = chai.expect;
-const should = chai.should();
 
 // const addTwo = (num1, num2) => num1 + num2;
 
@@ -63,7 +59,7 @@ describe('Test for User routes - correct input', () => {
     chai
       .request(baseUrl)
       .get('/reset')
-      .send({ 'username': 'DoNgoc' })
+      .send({ 'username': 'ChuNguyenHoangAnh' })
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
@@ -88,7 +84,6 @@ describe('Test for User routes - correct input', () => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys('status', 'code', 'error', 'message', 'data');
-        // console.log(userId, req, res.body);
         expect(res.body.error).to.be.false;
         done();
       });
