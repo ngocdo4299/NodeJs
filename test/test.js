@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import chai from 'chai';
 import chatHttp from 'chai-http';
-
 chai.use(chatHttp);
 const baseUrl = 'http://localhost:3000/api/users';
 
@@ -18,7 +17,7 @@ it('request a token', (done) => {
     .request(baseUrl)
     .post('/login')
     .send({ username: 'DoNgoc', password: '12345678' })
-    .end((err, res) => {
+    .end((_err, res) => {
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('data');
       token = res.body.data;
@@ -27,10 +26,10 @@ it('request a token', (done) => {
 });
 
 //User APIs
-describe('Test for User routes - correct input', () => {
+describe('Test for User', () => {
 
   // POST /users/
-  it('It should create a new user', (done) => {
+  it('POST /users/: It should create a new user', (done) => {
     const req = {
       'userName': 'ChuNguyenHoangAnh',
       'password': '12345678',
@@ -43,7 +42,7 @@ describe('Test for User routes - correct input', () => {
       .request(baseUrl)
       .post('/')
       .send(req)
-      .end(function (err, res) {
+      .end(function (_err, res) {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys('status', 'code', 'error', 'message', 'data');
@@ -55,12 +54,12 @@ describe('Test for User routes - correct input', () => {
 
 
   // GET /users/reset/
-  it('It should get a reset password token', (done) => {
+  it('GET /users/reset/ : It should get a reset password token', (done) => {
     chai
       .request(baseUrl)
       .get('/reset')
       .send({ 'username': 'ChuNguyenHoangAnh' })
-      .end((err, res) => {
+      .end((_err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys('status', 'code', 'error', 'message', 'data');
@@ -71,7 +70,7 @@ describe('Test for User routes - correct input', () => {
   });
 
   // POST /users/reset/:id
-  it('It should resets password', (done) => {
+  it('POST /users/reset/:id : It should resets password', (done) => {
     const req = {
       'resetToken': resetToken,
       'password': '12345678',
@@ -80,7 +79,7 @@ describe('Test for User routes - correct input', () => {
       .request(baseUrl)
       .post(`/reset/${userId}`)
       .send(req)
-      .end((err, res) => {
+      .end((_err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys('status', 'code', 'error', 'message', 'data');
@@ -90,12 +89,12 @@ describe('Test for User routes - correct input', () => {
   });
 
   //GET /users/search
-  it('It should get a list of users', (done) => {
+  it('GET /users/search : It should get a list of users', (done) => {
     chai
       .request(baseUrl)
       .get('/search')
       .set('authorization', 'Bearer: '+token)
-      .end((err, res) => {
+      .end((_err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys('status', 'code', 'error', 'message', 'data');
@@ -105,12 +104,12 @@ describe('Test for User routes - correct input', () => {
   });
 
   // GET /users/:id
-  it('It should get user detail', (done) => {
+  it('GET /users/:id : It should get user detail', (done) => {
     chai
       .request(baseUrl)
       .get(`/${userId}`)
       .set('authorization', 'Bearer: '+token)
-      .end((err, res) => {
+      .end((_err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys('status', 'code', 'error', 'message', 'data');
@@ -120,7 +119,7 @@ describe('Test for User routes - correct input', () => {
   });
 
   // PUT /users/:id
-  it('It should update user detail', (done) => {
+  it('PUT /users/:id : It should update user detail', (done) => {
     const req = {
       'userName': 'ChuNguyenHoangAnh',
       'fullName': 'Chu Nguyen Hoang Anh',
@@ -133,7 +132,7 @@ describe('Test for User routes - correct input', () => {
       .put(`/${userId}`)
       .set('authorization', 'Bearer: '+token)
       .send(req)
-      .end((err, res) => {
+      .end((_err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys('status', 'code', 'error', 'message', 'data');
@@ -143,12 +142,12 @@ describe('Test for User routes - correct input', () => {
   });
 
   // DELETE /users/:id
-  it('It should delete user', (done) => {
+  it('DELETE /users/:id : It should delete user', (done) => {
     chai
       .request(baseUrl)
       .delete(`/${userId}`)
       .set('authorization', 'Bearer: '+token)
-      .end((err, res) => {
+      .end((_err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys('status', 'code', 'error', 'message', 'data');
